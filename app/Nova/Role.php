@@ -2,38 +2,28 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\UserRole;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Avatar;
-use Laravel\Nova\Fields\BelongsTo;
+use App\Enums\RoleEnum;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Role extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Role>
      */
-    public static $model = \App\Models\User::class;
-
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'name';
-
+    public static $model = \App\Models\Role::class;
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id',
+        'name',
     ];
 
     /**
@@ -47,30 +37,19 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Avatar::make('Avatar')
-                ->disk('public')
-                ->path('users')
-                ->rules('image'),
-
-            Text::make('Name')
+            Text::make('Name', 'name', fn($value) => RoleEnum::tryFrom($value)?->title())
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->creationRules('unique:roles', 'required', 'max:255')
+                ->updateRules('unique:roles,name,{{resourceId}}', 'required', 'max:255'),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
-
-            BelongsTo::make('Role', 'role', Role::class)
-                ->sortable()
-                ->rules('required'),
+            BelongsToMany::make('Permissions', 'permissions', Permission::class)
+                ->searchable(),
         ];
+    }
+
+    public function title()
+    {
+        return RoleEnum::from($this->name)->title();
     }
 
     /**
@@ -92,9 +71,7 @@ class User extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [
-            new UserRole(),
-        ];
+        return [];
     }
 
     /**

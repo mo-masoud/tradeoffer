@@ -18,10 +18,10 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->word(),
+            'name_en' => fake()->word(),
+            'name_ar' => fake('ar/SA')->word(),
             'image' => 'category.png',
             'parent_id' => null,
-            'main_parent_id' => null,
             'order' => 1,
             'is_active' => true,
         ];

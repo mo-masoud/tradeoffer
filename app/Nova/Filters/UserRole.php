@@ -2,18 +2,19 @@
 
 namespace App\Nova\Filters;
 
+use App\Enums\RoleEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Filters\Filter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class ParentCategory extends Filter
+class UserRole extends Filter
 {
+    /**
+     * The filter's component.
+     *
+     * @var string
+     */
     public $component = 'select-filter';
-
-    public function default()
-    {
-        return 'all';
-    }
 
     /**
      * Apply the filter to the given query.
@@ -25,10 +26,9 @@ class ParentCategory extends Filter
      */
     public function apply(NovaRequest $request, $query, $value)
     {
-        if ($value === 'main') {
-            return $query->whereNull('parent_id');
-        }
-        return $query;
+        return $query->whereHas('role', function ($query) use ($value) {
+            $query->where('name', $value);
+        });
     }
 
     /**
@@ -40,8 +40,9 @@ class ParentCategory extends Filter
     public function options(NovaRequest $request)
     {
         return [
-            'Main' => 'main',
-            'All' => 'all',
+            'Super Admin' => RoleEnum::SuperAdmin,
+            'Admin' => RoleEnum::Admin,
+            'User' => RoleEnum::User,
         ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\ParentCategory;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
@@ -26,7 +25,7 @@ class Category extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'name_en';
 
     /**
      * The columns that should be searched.
@@ -34,7 +33,7 @@ class Category extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name'
+        'id', 'name_en', 'name_ar',
     ];
 
     /**
@@ -48,7 +47,11 @@ class Category extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('Name')
+            Text::make('English Name', 'name_en')
+                ->sortable()
+                ->rules('required', 'max:255'),
+
+            Text::make('Arabic Name', 'name_ar')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
@@ -67,13 +70,6 @@ class Category extends Resource
 
             BelongsTo::make('Parent', 'parent', self::class)
                 ->searchable()
-                ->showCreateRelationButton()
-                ->relatableQueryUsing(fn(NovaRequest $request, $query) => $query->where('id', '!=', $request->resourceId))
-                ->nullable(),
-
-            BelongsTo::make('Main Parent', 'mainParent', self::class)
-                ->searchable()
-                ->showCreateRelationButton()
                 ->relatableQueryUsing(fn(NovaRequest $request, $query) => $query->where('id', '!=', $request->resourceId))
                 ->nullable(),
 
@@ -101,7 +97,6 @@ class Category extends Resource
     public function filters(NovaRequest $request)
     {
         return [
-            new ParentCategory,
         ];
     }
 

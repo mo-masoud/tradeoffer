@@ -2,22 +2,19 @@
 
 namespace App\Nova;
 
-use App\Models\User;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Avatar;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Admin extends Resource
+class Permission extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<User>
+     * @var class-string<\App\Models\Permission>
      */
-    public static $model = User::class;
+    public static $model = \App\Models\Permission::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -32,15 +29,8 @@ class Admin extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name', 'group'
     ];
-
-//    public static function indexQuery(NovaRequest $request, $query)
-//    {
-//        return $query->where(function ($q) {
-//            $q->where('role', 'admin')->orWhere('role', 'super-admin');
-//        });
-//    }
 
     /**
      * Get the fields displayed by the resource.
@@ -53,25 +43,16 @@ class Admin extends Resource
         return [
             ID::make()->sortable(),
 
-            Avatar::make('Avatar')
-                ->disk('public')
-                ->path('admins')
-                ->rules('image'),
+            Text::make('Group'),
 
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            Text::make('Name', 'name', function ($value) {
+                $parts = explode('.', $value);
+                return array_pop($parts);
+            })->sortable()
+                ->exceptOnForms(),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
+            BelongsToMany::make('Roles', 'roles', Role::class)
+                ->searchable()
         ];
     }
 
@@ -94,8 +75,7 @@ class Admin extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [
-        ];
+        return [];
     }
 
     /**
