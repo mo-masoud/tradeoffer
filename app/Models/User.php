@@ -52,4 +52,9 @@ class User extends Authenticatable
             return $value ?: 'user.png';
         });
     }
+
+    public function store()
+    {
+        return $this->hasOne(Store::class);
+    }
 }

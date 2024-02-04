@@ -3,40 +3,44 @@
 namespace App\Nova;
 
 use App\Enums\RoleEnum;
-use App\Nova\Filters\UserRole;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasOne;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Store extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Store>
      */
-    public static $model = \App\Models\User::class;
-
+    public static $model = \App\Models\Store::class;
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
-
+    public static $title = 'name_en';
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name_en', 'name_ar', 'description_en', 'description_ar',
     ];
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->can('stores.create')) {
+            return $query;
+        }
+
+        return $query->where('user_id', $request->user()->id);
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -49,36 +53,42 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Avatar::make('Avatar')
+            Image::make('Image')
+                ->deletable(false)
                 ->disk('public')
-                ->path('users')
-                ->rules('image'),
+                ->path('stores')
+                ->creationRules('required')
+                ->updateRules('image'),
 
-            Text::make('Name')
+            Text::make('Name En')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Email')
+            Text::make('Name Ar')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->rules('required', 'max:255'),
 
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
-
-            BelongsTo::make('Role', 'role', Role::class)
-                ->sortable()
-                ->rules('required'),
-
-            HasOne::make('Store')
+            Text::make('Description En')
                 ->nullable()
                 ->sortable()
-                ->canSee(function ($request) {
-                    return $this->role?->name === RoleEnum::StoreManager->value;
-                }),
+                ->rules('max:255'),
+
+            Text::make('Description Ar')
+                ->nullable()
+                ->sortable()
+                ->rules('max:255'),
+
+            BelongsTo::make('User')
+                ->showCreateRelationButton()
+                ->searchable()
+                ->relatableQueryUsing(fn($request, $query) => $query->whereRole(RoleEnum::StoreManager->value)->whereDoesntHave('store'))
+                ->rules('required')
+                ->canSeeWhen('stores.create'),
+
+            Boolean::make('Is Active')
+                ->sortable()
+                ->rules('required')
+                ->canSeeWhen('stores.delete'),
         ];
     }
 
@@ -101,9 +111,7 @@ class User extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [
-            new UserRole(),
-        ];
+        return [];
     }
 
     /**

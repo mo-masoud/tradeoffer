@@ -24,6 +24,17 @@ class RolesSeeder extends Seeder
         $role->permissions()->sync(Permission::all());
 
         $role = Role::where('name', RoleEnum::Admin)->first();
-        $role->permissions()->sync(Permission::whereIn('group', ['categories', 'users'])->get());
+        $role->permissions()->sync(Permission::whereIn('group', ['categories', 'users', 'stores'])->get());
+
+        $role = Role::where('name', RoleEnum::StoreManager)->first();
+
+        $storeManagerPermissions = [
+            'categories.viewAny',
+            'categories.view',
+            'stores.viewAny',
+            'stores.view',
+            'stores.update',
+        ];
+        $role->permissions()->sync(Permission::whereIn('name', $storeManagerPermissions)->get());
     }
 }

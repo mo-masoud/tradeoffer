@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Enums\RoleEnum;
+use App\Models\Store;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -40,7 +41,17 @@ class DatabaseSeeder extends Seeder
 
         $user->assignRole(RoleEnum::User->value);
 
-        $this->call(CategoriesSeeder::class);
+        $user = User::factory()->create([
+            'name' => 'Store Manager',
+            'email' => 'test@store.com',
+        ]);
 
+        $user->assignRole(RoleEnum::StoreManager->value);
+
+        Store::factory(1)->create([
+            'user_id' => $user->id,
+        ]);
+
+        $this->call(CategoriesSeeder::class);
     }
 }

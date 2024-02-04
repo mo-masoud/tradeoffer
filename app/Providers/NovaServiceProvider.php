@@ -6,6 +6,7 @@ use App\Nova\Admin;
 use App\Nova\Category;
 use App\Nova\Dashboards\Main;
 use App\Nova\Role;
+use App\Nova\Store;
 use App\Nova\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
@@ -40,6 +41,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Role::class),
                     MenuItem::resource(User::class),
                 ])->icon('user-group')->collapsable(),
+
+                MenuSection::make('Stores & Branches', [
+                    MenuItem::resource(Store::class),
+                ])->icon('library')->collapsable(),
 
                 MenuSection::make('Market', [
                     MenuItem::resource(Category::class),

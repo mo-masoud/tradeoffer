@@ -26,9 +26,7 @@ class UserRole extends Filter
      */
     public function apply(NovaRequest $request, $query, $value)
     {
-        return $query->whereHas('role', function ($query) use ($value) {
-            $query->where('name', $value);
-        });
+        return $query->whereRole($value);
     }
 
     /**
@@ -42,6 +40,7 @@ class UserRole extends Filter
         return [
             'Super Admin' => RoleEnum::SuperAdmin,
             'Admin' => RoleEnum::Admin,
+            'Store Manager' => RoleEnum::StoreManager,
             'User' => RoleEnum::User,
         ];
     }

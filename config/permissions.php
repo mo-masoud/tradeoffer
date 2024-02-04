@@ -22,4 +22,11 @@ return [
         'update',
         'delete',
     ],
+    'stores' => [
+        'viewAny',
+        'view',
+        'create',
+        'update',
+        'delete',
+    ],
 ];

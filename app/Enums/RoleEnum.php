@@ -10,6 +10,7 @@ enum RoleEnum: string
     case User = 'user';
     case Admin = 'admin';
     case SuperAdmin = 'super_admin';
+    case StoreManager = 'store_manager';
 
     public function title()
     {
