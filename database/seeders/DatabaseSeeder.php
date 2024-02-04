@@ -33,6 +33,13 @@ class DatabaseSeeder extends Seeder
 
         $user->assignRole(RoleEnum::Admin->value);
 
+        $user = User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@user.com',
+        ]);
+
+        $user->assignRole(RoleEnum::User->value);
+
         $this->call(CategoriesSeeder::class);
 
     }
