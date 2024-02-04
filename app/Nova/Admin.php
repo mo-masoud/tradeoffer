@@ -3,12 +3,10 @@
 namespace App\Nova;
 
 use App\Models\User;
-use App\Nova\Filters\UserRole;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -37,12 +35,12 @@ class Admin extends Resource
         'id', 'name', 'email',
     ];
 
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->where(function ($q) {
-            $q->where('role', 'admin')->orWhere('role', 'super-admin');
-        });
-    }
+//    public static function indexQuery(NovaRequest $request, $query)
+//    {
+//        return $query->where(function ($q) {
+//            $q->where('role', 'admin')->orWhere('role', 'super-admin');
+//        });
+//    }
 
     /**
      * Get the fields displayed by the resource.
@@ -74,14 +72,6 @@ class Admin extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', Rules\Password::defaults())
                 ->updateRules('nullable', Rules\Password::defaults()),
-
-            Select::make('Role')
-                ->options([
-                    'super-admin' => 'Super Admin',
-                    'admin' => 'Admin',
-                ])
-                ->displayUsingLabels()
-                ->sortable(),
         ];
     }
 
@@ -105,7 +95,6 @@ class Admin extends Resource
     public function filters(NovaRequest $request)
     {
         return [
-            new UserRole
         ];
     }
 

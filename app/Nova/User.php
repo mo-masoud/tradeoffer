@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
-use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
@@ -35,12 +34,12 @@ class User extends Resource
         'id', 'name', 'email',
     ];
 
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->where(function ($q) {
-            $q->where('role', 'user');
-        });
-    }
+//    public static function indexQuery(NovaRequest $request, $query)
+//    {
+//        return $query->where(function ($q) {
+//            $q->where('role', 'user');
+//        });
+//    }
 
     /**
      * Get the fields displayed by the resource.
@@ -72,8 +71,6 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', Rules\Password::defaults())
                 ->updateRules('nullable', Rules\Password::defaults()),
-
-            Hidden::make('Role')->default('user'),
         ];
     }
 
