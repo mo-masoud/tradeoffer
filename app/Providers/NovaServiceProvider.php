@@ -36,6 +36,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [];
     }
 
+//    protected function authorization()
+//    {
+////        Nova::auth(function ($request) {
+////            return Gate::check('viewNova', [Nova::user($request)]);
+////        });
+//    }
+
     /**
      * Register the Nova routes.
      *
@@ -69,8 +76,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return in_array($user->email, [
-                //
+            return in_array($user->role, [
+                'admin',
+                'super-admin'
             ]);
         });
     }

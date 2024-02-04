@@ -2,22 +2,24 @@
 
 namespace App\Nova;
 
+use App\Models\User;
+use App\Nova\Filters\UserRole;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
-use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Admin extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<User>
      */
-    public static $model = \App\Models\User::class;
+    public static $model = User::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -38,7 +40,7 @@ class User extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         return $query->where(function ($q) {
-            $q->where('role', 'user');
+            $q->where('role', 'admin')->orWhere('role', 'super-admin');
         });
     }
 
@@ -70,7 +72,13 @@ class User extends Resource
                 ->creationRules('required', Rules\Password::defaults())
                 ->updateRules('nullable', Rules\Password::defaults()),
 
-            Hidden::make('Role')->default('user'),
+            Select::make('Role')
+                ->options([
+                    'super-admin' => 'Super Admin',
+                    'admin' => 'Admin',
+                ])
+                ->displayUsingLabels()
+                ->sortable(),
         ];
     }
 
@@ -93,7 +101,9 @@ class User extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            new UserRole
+        ];
     }
 
     /**
