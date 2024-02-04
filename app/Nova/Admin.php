@@ -55,7 +55,10 @@ class Admin extends Resource
         return [
             ID::make()->sortable(),
 
-            Avatar::make('Avatar')->rules('image'),
+            Avatar::make('Avatar')
+                ->disk('public')
+                ->path('admins')
+                ->rules('image'),
 
             Text::make('Name')
                 ->sortable()

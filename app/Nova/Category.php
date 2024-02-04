@@ -2,22 +2,24 @@
 
 namespace App\Nova;
 
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Avatar;
-use Laravel\Nova\Fields\Hidden;
+use App\Nova\Filters\ParentCategory;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Category extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Category>
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Category::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -32,15 +34,8 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name'
     ];
-
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->where(function ($q) {
-            $q->where('role', 'user');
-        });
-    }
 
     /**
      * Get the fields displayed by the resource.
@@ -53,27 +48,36 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Avatar::make('Avatar')
-                ->disk('public')
-                ->path('users')
-                ->rules('image'),
-
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Email')
+            Image::make('Image')
+                ->disk('public')
+                ->path('categories')
+                ->creationRules('required', 'image')
+                ->updateRules('image'),
+
+            Number::make('Order')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->rules('required', 'integer', 'min:1'),
 
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
+            Boolean::make('Is Active')
+                ->sortable(),
 
-            Hidden::make('Role')->default('user'),
+            BelongsTo::make('Parent', 'parent', self::class)
+                ->searchable()
+                ->showCreateRelationButton()
+                ->relatableQueryUsing(fn(NovaRequest $request, $query) => $query->where('id', '!=', $request->resourceId))
+                ->nullable(),
+
+            BelongsTo::make('Main Parent', 'mainParent', self::class)
+                ->searchable()
+                ->showCreateRelationButton()
+                ->relatableQueryUsing(fn(NovaRequest $request, $query) => $query->where('id', '!=', $request->resourceId))
+                ->nullable(),
+
+            HasMany::make('Children', 'children', self::class),
         ];
     }
 
@@ -96,7 +100,9 @@ class User extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            new ParentCategory,
+        ];
     }
 
     /**
