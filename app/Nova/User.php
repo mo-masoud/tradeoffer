@@ -76,8 +76,17 @@ class User extends Resource
             HasOne::make('Store')
                 ->nullable()
                 ->sortable()
+                ->exceptOnForms()
                 ->canSee(function ($request) {
                     return $this->role?->name === RoleEnum::StoreManager->value;
+                }),
+
+            HasOne::make('Branch')
+                ->nullable()
+                ->sortable()
+                ->exceptOnForms()
+                ->canSee(function ($request) {
+                    return $this->role?->name === RoleEnum::BranchManager->value;
                 }),
         ];
     }

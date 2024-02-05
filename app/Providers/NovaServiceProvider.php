@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Nova\Admin;
+use App\Nova\Branch;
 use App\Nova\Category;
 use App\Nova\Dashboards\Main;
 use App\Nova\Role;
@@ -44,6 +45,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('Stores & Branches', [
                     MenuItem::resource(Store::class),
+                    MenuItem::resource(Branch::class),
                 ])->icon('library')->collapsable(),
 
                 MenuSection::make('Market', [

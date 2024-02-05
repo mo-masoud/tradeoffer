@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Enums\RoleEnum;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
@@ -78,12 +79,15 @@ class Store extends Resource
                 ->sortable()
                 ->rules('max:255'),
 
-            BelongsTo::make('User')
+            BelongsTo::make('Store Manager', 'user', User::class)
                 ->showCreateRelationButton()
                 ->searchable()
-                ->relatableQueryUsing(fn($request, $query) => $query->whereRole(RoleEnum::StoreManager->value)->whereDoesntHave('store'))
+                ->relatableQueryUsing(fn($request, $query) => $query->whereRole(RoleEnum::StoreManager->value))
                 ->rules('required')
                 ->canSeeWhen('stores.create'),
+
+            HasMany::make('Branches', 'branches', Branch::class)
+                ->canSeeWhen('branches.viewAny'),
 
             Boolean::make('Is Active')
                 ->sortable()

@@ -7,7 +7,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 
-class RolesSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -24,7 +24,7 @@ class RolesSeeder extends Seeder
         $role->permissions()->sync(Permission::all());
 
         $role = Role::where('name', RoleEnum::Admin)->first();
-        $role->permissions()->sync(Permission::whereIn('group', ['categories', 'users', 'stores'])->get());
+        $role->permissions()->sync(Permission::whereNotIn('group', ['roles'])->get());
 
         $role = Role::where('name', RoleEnum::StoreManager)->first();
 
@@ -34,7 +34,21 @@ class RolesSeeder extends Seeder
             'stores.viewAny',
             'stores.view',
             'stores.update',
+            'branches.viewAny',
+            'branches.view',
+            'branches.update',
         ];
         $role->permissions()->sync(Permission::whereIn('name', $storeManagerPermissions)->get());
+
+        $role = Role::where('name', RoleEnum::BranchManager)->first();
+
+        $branchManagerPermissions = [
+            'categories.viewAny',
+            'categories.view',
+            'branches.viewAny',
+            'branches.view',
+            'branches.update',
+        ];
+        $role->permissions()->sync(Permission::whereIn('name', $branchManagerPermissions)->get());
     }
 }

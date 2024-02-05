@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        $this->call(PermissionsSeeder::class);
-        $this->call(RolesSeeder::class);
+        $this->call(PermissionSeeder::class);
+        $this->call(RoleSeeder::class);
 
         $user = User::factory()->create([
             'name' => 'Super Admin',
@@ -52,6 +52,6 @@ class DatabaseSeeder extends Seeder
             'user_id' => $user->id,
         ]);
 
-        $this->call(CategoriesSeeder::class);
+        $this->call(CategorySeeder::class);
     }
 }

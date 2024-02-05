@@ -29,4 +29,11 @@ return [
         'update',
         'delete',
     ],
+    'branches' => [
+        'viewAny',
+        'view',
+        'create',
+        'update',
+        'delete',
+    ],
 ];
