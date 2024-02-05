@@ -28,4 +28,9 @@ class Store extends Model
     {
         return $this->hasMany(Branch::class);
     }
+
+    public function products()
+    {
+        return $this->hasManyThrough(Product::class, Branch::class);
+    }
 }

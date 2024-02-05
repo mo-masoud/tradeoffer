@@ -6,6 +6,7 @@ use App\Enums\RoleEnum;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasManyThrough;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
@@ -93,6 +94,8 @@ class Store extends Resource
                 ->sortable()
                 ->rules('required')
                 ->canSeeWhen('stores.delete'),
+
+            HasManyThrough::make('Products', 'products', Product::class),
         ];
     }
 

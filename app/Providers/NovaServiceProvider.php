@@ -6,11 +6,11 @@ use App\Nova\Admin;
 use App\Nova\Branch;
 use App\Nova\Category;
 use App\Nova\Dashboards\Main;
+use App\Nova\Product;
 use App\Nova\Role;
 use App\Nova\Store;
 use App\Nova\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
@@ -30,10 +30,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::withBreadcrumbs();
 
-        Nova::footer(function (Request $request) {
-            return Blade::render('<div class="text-center text-primary-500">TradeOffer</div>');
-        });
-
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
@@ -50,6 +46,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('Market', [
                     MenuItem::resource(Category::class),
+                    MenuItem::resource(Product::class),
                 ])->icon('shopping-bag')->collapsable(),
             ];
         });
