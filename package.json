@@ -27,9 +27,11 @@
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.0",
         "embla-carousel": "^8.0.0-rc22",
+        "embla-carousel-autoplay": "^8.0.0-rc22",
         "embla-carousel-vue": "^8.0.0-rc22",
         "radix-vue": "^1.4.0",
         "tailwind-merge": "^2.2.1",
-        "tailwindcss-animate": "^1.0.7"
+        "tailwindcss-animate": "^1.0.7",
+        "vue3-carousel": "^0.3.1"
     }
 }

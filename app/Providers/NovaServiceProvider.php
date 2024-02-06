@@ -7,6 +7,7 @@ use App\Nova\Category;
 use App\Nova\Dashboards\Main;
 use App\Nova\Product;
 use App\Nova\Role;
+use App\Nova\Slider;
 use App\Nova\Store;
 use App\Nova\User;
 use Illuminate\Http\Request;
@@ -47,6 +48,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Category::class),
                     MenuItem::resource(Product::class),
                 ])->icon('shopping-bag')->collapsable(),
+
+                MenuSection::make('Content', [
+                    MenuItem::resource(Slider::class),
+                ])->icon('document')->collapsable(),
             ];
         });
     }
