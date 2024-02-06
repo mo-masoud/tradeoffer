@@ -63,7 +63,7 @@ class Category extends Resource
 
             Number::make('Order')
                 ->sortable()
-                ->rules('required', 'integer', 'min:1'),
+                ->rules('required', 'integer', 'min:0'),
 
             Boolean::make('Is Active')
                 ->sortable(),

@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Nova\Admin;
 use App\Nova\Branch;
 use App\Nova\Category;
 use App\Nova\Dashboards\Main;
@@ -59,7 +58,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+        ];
     }
 
 //    protected function authorization()

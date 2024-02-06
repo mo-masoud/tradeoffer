@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,6 +16,12 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('home');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/stores', function () {
+    return Inertia::render('home/index');
+})->name('stores');
+
+Route::get('/about-us', function () {
+    return Inertia::render('home/index');
+})->name('about-us');
