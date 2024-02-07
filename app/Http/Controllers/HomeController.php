@@ -14,7 +14,12 @@ class HomeController extends Controller
     {
         $categories = Category::with('children')->active()->whereNull('parent_id')->orderBy('order')->take(6)->get();
         $sliders = Slider::pluck('image')->toArray();
-        $offers = Offer::with('media', 'branch.store')->withCount('products')->whereHas('products')->active()->get();
+        $offers = Offer::with('media', 'branch.store')
+            ->withCount('products')
+            ->whereHas('products')
+            ->active()
+            ->take(4)
+            ->get();
         $offers = OfferResource::collection($offers);
 
         return inertia('home/index', compact('categories', 'sliders', 'offers'));

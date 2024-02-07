@@ -11,7 +11,9 @@
 
 <template>
 	<Link href="/">
-		<Card>
+		<Card
+			class="transition duration-300 ease-in-out hover:bg-primary hover:text-white"
+		>
 			<CardContent
 				class="flex h-44 flex-col items-center justify-center gap-y-2 p-0"
 			>

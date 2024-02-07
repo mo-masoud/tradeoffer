@@ -26,7 +26,7 @@
 		<MainSection
 			class="mt-28"
 			link="/"
-			subtitle="Our Offers"
+			subtitle="Best Offers"
 			title="Offers"
 		>
 			<div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
