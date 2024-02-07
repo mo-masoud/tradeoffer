@@ -17,15 +17,10 @@ class Product extends Model implements HasMedia
         'description_en',
         'description_ar',
         'price',
-        'images',
         'category_id',
         'branch_id',
         'discount',
         'in_stock',
-    ];
-
-    protected $casts = [
-        'images' => 'array',
     ];
 
     public function category()
@@ -36,5 +31,10 @@ class Product extends Model implements HasMedia
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function offers()
+    {
+        return $this->belongsToMany(Offer::class);
     }
 }

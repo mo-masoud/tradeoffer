@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import {Link} from "@inertiajs/vue3";
+    import { Link } from '@inertiajs/vue3';
 
-const links = [
-    {name: 'Home', href: 'home'},
-    {name: 'Stores', href: 'stores'},
-    {name: 'About us', href: 'about-us'},
-]
+    const links = [
+        { name: 'Home', href: 'home' },
+        { name: 'Stores', href: 'stores' },
+        { name: 'About us', href: 'about-us' },
+    ];
 </script>
 
 <template>

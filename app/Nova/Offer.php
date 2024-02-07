@@ -4,26 +4,29 @@ namespace App\Nova;
 
 use Ardenthq\ImageGalleryField\ImageGalleryField;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Product extends Resource
+class Offer extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Product>
+     * @var class-string<\App\Models\Offer>
      */
-    public static $model = \App\Models\Product::class;
+    public static $model = \App\Models\Offer::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name_en';
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
@@ -31,7 +34,7 @@ class Product extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name_en', 'name_ar',
+        'id', 'title', 'description',
     ];
 
     /**
@@ -45,40 +48,66 @@ class Product extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('Category', 'category', Category::class)
-                ->sortable()
-                ->searchable(),
-
             BelongsTo::make('Branch', 'branch', Branch::class)
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->rules('required'),
 
-            ImageGalleryField::make('Images')
-                ->rules('image')
-                ->showOnIndex(),
-
-            Text::make('Name (English)', 'name_en')
+            Text::make('Title (English)', 'title_en')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Name (Arabic)', 'name_ar')
+            Text::make('Title (Arabic)', 'title_ar')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
             Text::make('Description (English)', 'description_en')
-                ->hideFromIndex()
-                ->rules('required', 'max:255'),
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->hideFromIndex(),
 
             Text::make('Description (Arabic)', 'description_ar')
-                ->hideFromIndex()
-                ->rules('required', 'max:255'),
-
-            Number::make('Price', 'price')
                 ->sortable()
-                ->min(1)
-                ->rules('required'),
+                ->rules('required', 'max:255')
+                ->hideFromIndex(),
 
+            ImageGalleryField::make('Images')
+                ->rules('image')
+                ->hideFromIndex(),
+
+            Number::make('Discount')
+                ->sortable()
+                ->placeholder('Discount percentage % for each products in offer')
+                ->rules('required', 'max:100'),
+
+            Number::make('Max Discount')
+                ->sortable()
+                ->placeholder('Apply max discount for each products in offer')
+                ->rules('nullable', 'min:1')
+                ->hideFromIndex(),
+
+            DateTime::make('Start At')
+                ->sortable()
+                ->default(now())
+                ->rules('required', 'after_or_equal:today'),
+
+            DateTime::make('End At')
+                ->sortable()
+                ->rules('required', 'after:start_at'),
+
+            BelongsToMany::make('Products', 'products', Product::class)
+                ->sortable()
         ];
+    }
+
+    public static function relatableProducts(NovaRequest $request, $query)
+    {
+        if ($request->resourceId) {
+            $offer = \App\Models\Offer::findOrFail($request->resourceId);
+            return $query->where('branch_id', $offer->branch_id);
+        }
+
+        return $query;
     }
 
     /**
