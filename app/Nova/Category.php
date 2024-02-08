@@ -60,6 +60,13 @@ class Category extends Resource
         return [
             ID::make()->sortable(),
 
+            Image::make('Image')
+                ->disk('public')
+                ->path('categories')
+                ->creationRules('required', 'image')
+                ->updateRules('image')
+                ->detailWidth(400),
+
             Text::make('English Name', 'name_en')
                 ->sortable()
                 ->rules('required', 'max:255'),
@@ -67,12 +74,6 @@ class Category extends Resource
             Text::make('Arabic Name', 'name_ar')
                 ->sortable()
                 ->rules('required', 'max:255'),
-
-            Image::make('Image')
-                ->disk('public')
-                ->path('categories')
-                ->creationRules('required', 'image')
-                ->updateRules('image'),
 
             Number::make('Order')
                 ->sortable()

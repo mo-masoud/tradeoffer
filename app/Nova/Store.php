@@ -60,7 +60,9 @@ class Store extends Resource
                 ->disk('public')
                 ->path('stores')
                 ->creationRules('required')
-                ->updateRules('image'),
+                ->updateRules('image')
+                ->indexWidth(100)
+                ->detailWidth(400),
 
             Text::make('Name En')
                 ->sortable()

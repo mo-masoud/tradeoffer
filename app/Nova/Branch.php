@@ -74,11 +74,11 @@ class Branch extends Resource
                 ->sortable()
                 ->showCreateRelationButton()
                 ->searchable()
+                ->nullable()
                 ->canSee(function ($request) {
                     return $request->user()->can('branches.create');
                 })
-                ->relatableQueryUsing(fn($request, $query) => $query->whereRole(RoleEnum::BranchManager->value))
-                ->rules('required'),
+                ->relatableQueryUsing(fn($request, $query) => $query->whereRole(RoleEnum::BranchManager->value)),
 
             Text::make('Name (English)', 'name_en')
                 ->sortable()

@@ -34,5 +34,7 @@ class DatabaseSeeder extends Seeder
         $user->assignRole(RoleEnum::Admin->value);
 
         $this->call(CategorySeeder::class);
+
+        $this->call(StoreBranchesAndProductSeeder::class);
     }
 }
