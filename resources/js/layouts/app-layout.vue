@@ -56,7 +56,7 @@
 		</main>
 
 		<Button
-			class="fixed bottom-20 right-20 z-40 rounded-full"
+			class="fixed bottom-8 right-8 z-40 rounded-full lg:bottom-20 lg:right-20"
 			size="icon"
 			@click="goToTop"
 		>
