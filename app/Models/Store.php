@@ -48,6 +48,6 @@ class Store extends Model
 
     public function products()
     {
-        return $this->hasManyThrough(Product::class, Branch::class);
+        return $this->hasMany(Product::class);
     }
 }

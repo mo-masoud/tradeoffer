@@ -18,10 +18,14 @@ class Product extends Model implements HasMedia
         'description_en',
         'description_ar',
         'price',
+        'meta',
         'category_id',
-        'branch_id',
+        'store_id',
         'discount',
-        'in_stock',
+    ];
+
+    protected $casts = [
+        'meta' => 'json',
     ];
 
     protected $appends = ['name', 'description'];
@@ -45,9 +49,24 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(Category::class);
     }
 
-    public function branch()
+    public function store()
     {
-        return $this->belongsTo(Branch::class);
+        return $this->belongsTo(Store::class);
+    }
+
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class)->withPivot('in_stock');
+    }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class)->withPivot('extra_price', 'in_stock');
+    }
+
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class)->withPivot('extra_price', 'in_stock');
     }
 
     public function offers()

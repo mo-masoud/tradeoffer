@@ -6,7 +6,6 @@ use App\Enums\RoleEnum;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\HasManyThrough;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
@@ -35,15 +34,6 @@ class Store extends Resource
         'id', 'name_en', 'name_ar', 'description_en', 'description_ar',
     ];
 
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        if ($request->user()->can('stores.create')) {
-            return $query;
-        }
-
-        return $query->where('user_id', $request->user()->id);
-    }
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -64,22 +54,22 @@ class Store extends Resource
                 ->indexWidth(100)
                 ->detailWidth(400),
 
-            Text::make('Name En')
+            Text::make('Name (English)', 'name_en')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Name Ar')
+            Text::make('Name (Arabic)', 'name_ar')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Description En')
+            Text::make('Description (English)', 'description_en')
                 ->nullable()
-                ->sortable()
+                ->hideFromIndex()
                 ->rules('max:255'),
 
-            Text::make('Description Ar')
+            Text::make('Description (Arabic)', 'description_ar')
                 ->nullable()
-                ->sortable()
+                ->hideFromIndex()
                 ->rules('max:255'),
 
             BelongsTo::make('Store Manager', 'user', User::class)
@@ -87,6 +77,7 @@ class Store extends Resource
                 ->searchable()
                 ->relatableQueryUsing(fn($request, $query) => $query->whereRole(RoleEnum::StoreManager->value))
                 ->rules('required')
+                ->peekable()
                 ->canSeeWhen('stores.create'),
 
             HasMany::make('Branches', 'branches', Branch::class)
@@ -97,7 +88,7 @@ class Store extends Resource
                 ->rules('required')
                 ->canSeeWhen('stores.delete'),
 
-            HasManyThrough::make('Products', 'products', Product::class),
+            HasMany::make('Products', 'products', Product::class),
         ];
     }
 

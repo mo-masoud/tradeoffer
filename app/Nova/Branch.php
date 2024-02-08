@@ -4,8 +4,8 @@ namespace App\Nova;
 
 use App\Enums\RoleEnum;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -99,7 +99,13 @@ class Branch extends Resource
 
             Panel::make('Address', $this->addressFields())->collapsable(),
 
-            HasMany::make('Products', 'products', Product::class),
+            BelongsToMany::make('Products')->fields(function () {
+                return [
+                    Boolean::make('In Stock', 'in_stock')
+                        ->sortable()
+                        ->rules('required'),
+                ];
+            }),
         ];
     }
 

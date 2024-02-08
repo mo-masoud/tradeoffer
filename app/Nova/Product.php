@@ -4,8 +4,12 @@ namespace App\Nova;
 
 use Ardenthq\ImageGalleryField\ImageGalleryField;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Tag;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -49,7 +53,7 @@ class Product extends Resource
                 ->sortable()
                 ->searchable(),
 
-            BelongsTo::make('Branch', 'branch', Branch::class)
+            BelongsTo::make('Store', 'store', Store::class)
                 ->sortable()
                 ->searchable(),
 
@@ -73,11 +77,57 @@ class Product extends Resource
                 ->hideFromIndex()
                 ->rules('required', 'max:255'),
 
+            KeyValue::make('Meta')
+                ->keyLabel('Specification')
+                ->valueLabel('Value')
+                ->help(view('fields-help.product-meta')->render())
+                ->rules('json'),
+
             Number::make('Price', 'price')
                 ->sortable()
                 ->min(1)
+                ->step(0.01)
                 ->rules('required'),
 
+            Tag::make('Colors')
+                ->withPreview()
+                ->preload()
+                ->showCreateRelationButton(),
+
+            Tag::make('Sizes')
+                ->withPreview()
+                ->preload()
+                ->showCreateRelationButton(),
+
+            BelongsToMany::make('Colors')
+                ->showCreateRelationButton()
+                ->fields(function () {
+                    return [
+                        Number::make('Extra Price', 'extra_price')
+                            ->min(0)
+                            ->step(0.01)
+                            ->default(0)
+                            ->rules('required'),
+                        Boolean::make('In Stock', 'in_stock')
+                            ->default(true)
+                            ->rules('required'),
+                    ];
+                }),
+
+            BelongsToMany::make('Sizes')
+                ->showCreateRelationButton()
+                ->fields(function () {
+                    return [
+                        Number::make('Extra Price', 'extra_price')
+                            ->min(0)
+                            ->step(0.01)
+                            ->default(0)
+                            ->rules('required'),
+                        Boolean::make('In Stock', 'in_stock')
+                            ->default(true)
+                            ->rules('required'),
+                    ];
+                }),
         ];
     }
 
