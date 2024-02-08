@@ -12,9 +12,23 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::truncate();
-
         $categories = [
+            [
+                'name_en' => 'Hypermarket',
+                'name_ar' => 'هايبر ماركت',
+            ],
+            [
+                'name_en' => 'Butchery',
+                'name_ar' => 'جزارة',
+            ],
+            [
+                'name_en' => 'Bakery',
+                'name_ar' => 'مخبز',
+            ],
+            [
+                'name_en' => 'Pharmacy',
+                'name_ar' => 'صيدلية',
+            ],
             [
                 'name_en' => 'Food & Groceries',
                 'name_ar' => 'الطعام والبقالة',
@@ -32,10 +46,6 @@ class CategorySeeder extends Seeder
                 'name_ar' => 'الصحة والجمال',
             ],
             [
-                'name_en' => 'Home & Lifestyle',
-                'name_ar' => 'المنزل ونمط الحياة',
-            ],
-            [
                 'name_en' => 'Kids & Babies',
                 'name_ar' => 'الأطفال والرضع',
             ],
@@ -47,24 +57,14 @@ class CategorySeeder extends Seeder
                 'name_en' => 'Sports & Outdoors',
                 'name_ar' => 'الرياضة والهواء الطلق',
             ],
-            [
-                'name_en' => 'Automotive',
-                'name_ar' => 'السيارات',
-            ],
-            [
-                'name_en' => 'Pet Supplies',
-                'name_ar' => 'لوازم الحيوانات الأليفة',
-            ],
-            [
-                'name_en' => 'Hypermarket',
-                'name_ar' => 'هايبر ماركت',
-            ]
         ];
 
-        foreach ($categories as $category) {
-            Category::factory()->create([
+        foreach ($categories as $i => $category) {
+            Category::updateOrCreate([
                 'name_en' => $category['name_en'],
                 'name_ar' => $category['name_ar'],
+                'image' => $category['name_en'] . '.png',
+                'order' => $i + 1,
             ]);
         }
 
@@ -73,12 +73,14 @@ class CategorySeeder extends Seeder
         $electronics->children()->create([
             'name_en' => 'Mobiles & Tablets',
             'name_ar' => 'الهواتف المحمولة والأجهزة اللوحية',
-            'image' => 'category.png'
+            'image' => 'Mobiles & Tablets.png',
+            'order' => 1
         ]);
         $electronics->children()->create([
             'name_en' => 'Laptops & Computers',
             'name_ar' => 'أجهزة الكمبيوتر المحمولة والكمبيوترات',
-            'image' => 'category.png'
+            'image' => 'Laptops & Computers.png',
+            'order' => 2
         ]);
     }
 }

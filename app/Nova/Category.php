@@ -36,6 +36,19 @@ class Category extends Resource
         'id', 'name_en', 'name_ar',
     ];
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->viaRelationship()) {
+            return $query;
+        }
+        return $query->whereNull('parent_id');
+    }
+
+    public static function defaultOrderings($query)
+    {
+        return $query->orderBy('order');
+    }
+
     /**
      * Get the fields displayed by the resource.
      *
