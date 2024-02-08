@@ -49,7 +49,9 @@ class Slider extends Resource
                 ->path('slider')
                 ->deletable(false)
                 ->creationRules('required')
-                ->updateRules('nullable', 'image'),
+                ->updateRules('nullable', 'image')
+                ->indexWidth(400)
+                ->detailWidth(600),
         ];
     }
 
