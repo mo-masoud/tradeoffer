@@ -86,6 +86,12 @@ class Product extends Resource
                 ->step(0.01)
                 ->rules('required'),
 
+            Number::make('Discount')
+                ->sortable()
+                ->min(1)
+                ->step(0.01)
+                ->max(100),
+
             Tag::make('Categories')
                 ->withPreview()
                 ->preload()
