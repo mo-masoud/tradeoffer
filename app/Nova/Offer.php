@@ -5,9 +5,9 @@ namespace App\Nova;
 use Ardenthq\ImageGalleryField\ImageGalleryField;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -37,6 +37,26 @@ class Offer extends Resource
         'id', 'title', 'description',
     ];
 
+    public static function relatableProducts(NovaRequest $request, $query)
+    {
+        if ($request->resourceId) {
+            $offer = \App\Models\Offer::findOrFail($request->resourceId);
+            return $query->where('branch_id', $offer->branch_id);
+        }
+
+        return $query;
+    }
+
+    public static function relatableBranches(NovaRequest $request, $query)
+    {
+        if ($request->resourceId) {
+            $offer = \App\Models\Offer::findOrFail($request->resourceId);
+            return $query->where('store_id', $offer->store_id);
+        }
+
+        return $query;
+    }
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -48,10 +68,9 @@ class Offer extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('Branch', 'branch', Branch::class)
+            BelongsTo::make('Store')
                 ->sortable()
-                ->searchable()
-                ->rules('required'),
+                ->searchable(),
 
             Text::make('Title (English)', 'title_en')
                 ->sortable()
@@ -73,12 +92,12 @@ class Offer extends Resource
 
             ImageGalleryField::make('Images')
                 ->rules('image')
-                ->hideFromIndex(),
+                ->showOnIndex(),
 
             Number::make('Discount')
                 ->sortable()
                 ->placeholder('Discount percentage % for each products in offer')
-                ->rules('required', 'max:100'),
+                ->rules('max:100'),
 
             Number::make('Max Discount')
                 ->sortable()
@@ -95,19 +114,14 @@ class Offer extends Resource
                 ->sortable()
                 ->rules('required', 'after:start_at'),
 
-            BelongsToMany::make('Products', 'products', Product::class)
-                ->sortable()
+            Boolean::make('Featured')
+                ->sortable(),
+
+            BelongsToMany::make('Products'),
+
+
+            BelongsToMany::make('Branches'),
         ];
-    }
-
-    public static function relatableProducts(NovaRequest $request, $query)
-    {
-        if ($request->resourceId) {
-            $offer = \App\Models\Offer::findOrFail($request->resourceId);
-            return $query->where('branch_id', $offer->branch_id);
-        }
-
-        return $query;
     }
 
     /**

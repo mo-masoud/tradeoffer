@@ -13,7 +13,7 @@ class Offer extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        'branch_id',
+        'store_id',
         'title_en',
         'title_ar',
         'description_en',
@@ -22,6 +22,7 @@ class Offer extends Model implements HasMedia
         'max_discount',
         'start_at',
         'end_at',
+        'featured',
     ];
 
     protected $casts = [
@@ -36,14 +37,19 @@ class Offer extends Model implements HasMedia
         return $query->where('start_at', '<=', now())->where('end_at', '>=', now());
     }
 
-    public function branch()
+    public function store()
     {
-        return $this->belongsTo(Branch::class);
+        return $this->belongsTo(Store::class);
     }
 
     public function products()
     {
         return $this->belongsToMany(Product::class);
+    }
+
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class)->where('store_id', $this->store_id);
     }
 
     public function title(): Attribute

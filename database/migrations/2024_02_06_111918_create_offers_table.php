@@ -12,15 +12,16 @@ return new class extends Migration {
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('store_id')->constrained()->cascadeOnDelete();
             $table->string('title_en');
             $table->string('title_ar');
             $table->text('description_en');
             $table->text('description_ar');
-            $table->double('discount', 8, 2);
+            $table->double('discount', 8, 2)->nullable();
             $table->double('max_discount', 8, 2)->nullable();
             $table->timestamp('start_at')->default(now());
             $table->timestamp('end_at');
+            $table->boolean('featured')->default(false);
             $table->timestamps();
         });
     }
