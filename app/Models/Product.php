@@ -74,6 +74,11 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(AttributeValue::class)->withPivot('extra_price', 'in_stock');
     }
 
+    public function addons()
+    {
+        return $this->hasMany(ProductAddon::class);
+    }
+
     public function offers()
     {
         return $this->belongsToMany(Offer::class);

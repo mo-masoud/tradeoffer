@@ -7,6 +7,7 @@ use App\Models\Branch;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
+use App\Models\ProductAddon;
 use App\Models\Size;
 use App\Models\Store;
 use App\Models\User;
@@ -564,7 +565,53 @@ class StoreBranchesAndProductSeeder extends Seeder
                 'name_ar' => 'المدينة',
                 'description_en' => 'Al-Madina is a grocery store that sells all kinds of groceries and food.',
                 'description_ar' => 'المدينة هو متجر بقالة يبيع جميع أنواع البقالة والطعام.',
-                'products' => [],
+                'products' => [
+                    [
+                        'name_en' => 'Chicken Burger',
+                        'name_ar' => 'برجر الدجاج',
+                        'description_en' => 'Chicken Burger is a burger made of chicken meat with lettuce and mayonnaise.',
+                        'description_ar' => 'برجر الدجاج هو برجر مصنوع من لحم الدجاج مع الخس والمايونيز.',
+                        'price' => 2.99,
+                        'discount' => 0,
+                        'category' => 'Food & Groceries',
+                        'meta' => [],
+                        'sizes' => [
+                            'Small' => [],
+                            'Medium' => [],
+                            'Large' => [
+                                'extra_price' => 1,
+                                'in_stock' => true,
+                            ],
+                        ],
+                        'images' => [
+                            'Chicken Burger.jpg',
+                        ],
+                        'colors' => [],
+                        'addons' => [
+                            [
+                                'name_en' => 'Cheese',
+                                'name_ar' => 'جبن',
+                                'image' => 'Cheese.jpg',
+                                'price' => 0.5,
+                                'in_stock' => true,
+                            ],
+                            [
+                                'name_en' => 'Fries',
+                                'name_ar' => 'بطاطا مقلية',
+                                'image' => 'Fries.jpg',
+                                'price' => 1.5,
+                                'in_stock' => true,
+                            ],
+                            [
+                                'name_en' => 'Spiro Spathis',
+                                'name_ar' => 'سبايرو سباثيس',
+                                'image' => 'Spiro Spathis.jpg',
+                                'price' => 2,
+                                'in_stock' => true,
+                            ]
+                        ],
+                    ],
+                ],
                 'branches' => [
                     [
                         'name_en' => 'Al-Madina - Amman - Al-Weibdeh',
@@ -647,6 +694,20 @@ class StoreBranchesAndProductSeeder extends Seeder
                         'extra_price' => $colorData['extra_price'] ?? 0,
                         'in_stock' => $colorData['in_stock'] ?? true,
                     ]);
+                }
+
+                if (isset($product['addons'])) {
+                    foreach ($product['addons'] as $addon) {
+                        ProductAddon::updateOrCreate([
+                            'name_en' => $addon['name_en'],
+                            'name_ar' => $addon['name_ar'],
+                            'product_id' => $productModel->id,
+                        ], [
+                            'image' => $addon['image'],
+                            'price' => $addon['price'],
+                            'in_stock' => $addon['in_stock'],
+                        ]);
+                    }
                 }
             }
 

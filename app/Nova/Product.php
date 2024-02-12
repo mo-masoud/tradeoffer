@@ -6,6 +6,7 @@ use Ardenthq\ImageGalleryField\ImageGalleryField;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\Number;
@@ -145,6 +146,8 @@ class Product extends Resource
                             ->rules('required'),
                     ];
                 }),
+
+            HasMany::make('Addons', 'addons', ProductAddon::class),
         ];
     }
 
