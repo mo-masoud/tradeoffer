@@ -49,10 +49,6 @@ class Product extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('Category', 'category', Category::class)
-                ->sortable()
-                ->searchable(),
-
             BelongsTo::make('Store', 'store', Store::class)
                 ->sortable()
                 ->searchable(),
@@ -89,6 +85,12 @@ class Product extends Resource
                 ->step(0.01)
                 ->rules('required'),
 
+            Tag::make('Categories')
+                ->withPreview()
+                ->preload()
+                ->displayAsList()
+                ->showCreateRelationButton(),
+
             Tag::make('Colors')
                 ->withPreview()
                 ->preload()
@@ -115,6 +117,21 @@ class Product extends Resource
                 }),
 
             BelongsToMany::make('Sizes')
+                ->showCreateRelationButton()
+                ->fields(function () {
+                    return [
+                        Number::make('Extra Price', 'extra_price')
+                            ->min(0)
+                            ->step(0.01)
+                            ->default(0)
+                            ->rules('required'),
+                        Boolean::make('In Stock', 'in_stock')
+                            ->default(true)
+                            ->rules('required'),
+                    ];
+                }),
+
+            BelongsToMany::make('Attributes', 'attributes', AttributeValue::class)
                 ->showCreateRelationButton()
                 ->fields(function () {
                     return [

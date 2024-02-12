@@ -42,4 +42,9 @@ class Category extends Model
     {
         return $this->hasMany(self::class, 'parent_id');
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }

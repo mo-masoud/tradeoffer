@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Nova\Attribute;
 use App\Nova\Branch;
 use App\Nova\Category;
 use App\Nova\Dashboards\Main;
@@ -47,6 +48,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('Market', [
                     MenuItem::resource(Category::class),
+                    MenuItem::resource(Attribute::class),
                     MenuItem::resource(Product::class),
                     MenuItem::resource(Offer::class),
                 ])->icon('shopping-bag')->collapsable(),

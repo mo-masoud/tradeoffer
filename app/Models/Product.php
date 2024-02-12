@@ -44,9 +44,9 @@ class Product extends Model implements HasMedia
         });
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class);
     }
 
     public function store()
@@ -67,6 +67,11 @@ class Product extends Model implements HasMedia
     public function colors()
     {
         return $this->belongsToMany(Color::class)->withPivot('extra_price', 'in_stock');
+    }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(AttributeValue::class)->withPivot('extra_price', 'in_stock');
     }
 
     public function offers()

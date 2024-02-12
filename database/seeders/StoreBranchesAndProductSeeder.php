@@ -614,9 +614,10 @@ class StoreBranchesAndProductSeeder extends Seeder
                     'price' => $product['price'],
                     'meta' => $product['meta'],
                     'discount' => $product['discount'],
-                    'category_id' => $categories->where('name_en', $product['category'])->first()->id,
                     'store_id' => $storeModel->id,
                 ]);
+
+                $productModel->categories()->attach($categories->where('name_en', $product['category'])->first()->id);
 
                 $productsIds[] = $productModel->id;
 
