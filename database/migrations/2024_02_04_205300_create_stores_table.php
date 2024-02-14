@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('image', 2000);
             $table->json('phones')->nullable();
             $table->json('emails')->nullable();
+            $table->boolean('featured')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

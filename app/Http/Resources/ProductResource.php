@@ -20,9 +20,11 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'discount' => $this->discount,
-            'in_stock' => $this->in_stock,
-            'category' => new CategoryResource($this->whenLoaded('category')),
-            'branch' => new BranchResource($this->whenLoaded('branch')),
+            'meta' => $this->meta,
+            'has_offer' => $this->has_offer,
+            'store' => new StoreResource($this->whenLoaded('store')),
+            'categories' => CategoryResource::collection($this->whenLoaded('categories')),
+            'branches' => BranchResource::collection($this->whenLoaded('branches')),
             'media' => MediaResource::collection($this->whenLoaded('media')),
         ];
     }

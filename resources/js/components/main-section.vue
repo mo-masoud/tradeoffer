@@ -23,6 +23,7 @@
 		</div>
 		<div class="mt-6 flex items-center justify-between">
 			<h1 class="text-2xl lg:text-4xl">{{ subtitle }}</h1>
+			<slot name="link" />
 			<Button
 				v-if="link"
 				as-child

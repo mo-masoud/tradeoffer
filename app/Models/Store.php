@@ -17,6 +17,7 @@ class Store extends Model
         'description_en',
         'description_ar',
         'image',
+        'featured',
         'is_active',
     ];
 
@@ -49,5 +50,20 @@ class Store extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeFeatured($query)
+    {
+        return $query->where('featured', true);
     }
 }

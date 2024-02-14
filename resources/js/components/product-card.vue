@@ -1,28 +1,29 @@
 <script lang="ts" setup>
-	import {
-		EyeIcon,
-		HeartIcon,
-		ShoppingCartIcon,
-	} from '@heroicons/vue/24/outline';
+	import { HeartIcon, ShoppingCartIcon } from '@heroicons/vue/24/outline';
 	import { Card, CardContent, CardFooter } from '@/components/ui/card';
 	import { Product } from '@/types/models';
 	import { Link } from '@inertiajs/vue3';
 	import StarRating from '@/components/star-rating.vue';
 	import { Button } from '@/components/ui/button';
-	import { ref } from 'vue';
 
 	defineProps<{
 		product: Product;
 	}>();
-
-	const hover = ref(false);
 </script>
 
 <template>
 	<Card class="relative">
 		<div
-			class="absolute right-0 top-4 z-20 flex h-20 w-20 flex-col items-center justify-between"
+			class="absolute right-2 top-2 z-20 flex h-20 w-20 flex-col items-end justify-between"
 		>
+			<Button
+				class="rounded-full shadow"
+				size="icon"
+				variant="outline"
+			>
+				<ShoppingCartIcon class="h-6 w-6 text-primary" />
+			</Button>
+
 			<Button
 				class="rounded-full shadow"
 				size="icon"
@@ -30,33 +31,23 @@
 			>
 				<HeartIcon class="h-6 w-6 text-primary" />
 			</Button>
-
-			<Button
-				class="rounded-full shadow"
-				size="icon"
-				variant="outline"
-			>
-				<EyeIcon class="h-6 w-6 text-primary" />
-			</Button>
 		</div>
 		<CardContent
-			class="relative px-0"
-			@mouseenter="hover = true"
-			@mouseleave="hover = false"
+			class="relative items-center justify-center rounded-t-lg bg-muted p-4"
 		>
-			<img
-				:alt="product.name"
-				:src="product.media[0].url"
-				class="h-40 w-full rounded-t-lg object-cover lg:h-72"
-			/>
-
-			<button
-				v-if="hover"
-				class="absolute bottom-0 flex h-12 w-full items-center justify-center gap-x-2 bg-black text-white hover:text-muted"
-			>
-				<span>Add to Cart</span>
-				<ShoppingCartIcon class="h-6 w-6" />
-			</button>
+			<Link href="/">
+				<span
+					v-if="product.has_offer"
+					class="absolute inline-flex items-center justify-center rounded bg-green-500 p-1 text-sm text-white"
+				>
+					Offer
+				</span>
+				<img
+					:alt="product.name"
+					:src="product.media[0].url"
+					class="h-40 w-full rounded-t-lg object-contain"
+				/>
+			</Link>
 		</CardContent>
 		<CardFooter class="flex-col items-start px-2">
 			<Link href="/">
@@ -65,9 +56,28 @@
 				</h3>
 			</Link>
 			<div class="mt-2 flex items-center gap-x-6">
-				<span class="font-bold text-primary">
+				<span
+					v-if="product.discount === 0"
+					class="font-bold text-primary"
+				>
 					${{ Math.round(product.price) }}
 				</span>
+
+				<template v-else>
+					<span class="font-bold text-primary">
+						${{
+							Math.round(
+								product.price -
+									(product.price * product.discount) / 100,
+							)
+						}}
+					</span>
+					<span
+						class="text-sm font-semibold text-muted-foreground line-through"
+					>
+						${{ Math.round(product.price) }}
+					</span>
+				</template>
 				<!-- Discount will be here in future -->
 			</div>
 			<div class="flex items-center gap-x-2">

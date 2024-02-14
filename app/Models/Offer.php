@@ -65,4 +65,14 @@ class Offer extends Model implements HasMedia
             return app()->getLocale() == 'ar' ? $this->description_ar : $this->description_en;
         });
     }
+
+    public function scopeTop($query)
+    {
+        return $query
+            ->with('media', 'store')
+            ->active()
+            ->whereFeatured(true)
+            ->latest()
+            ->take(8);
+    }
 }

@@ -22,9 +22,8 @@ class OfferResource extends JsonResource
             'max_discount' => $this->max_discount,
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
-            'products_count' => $this->products_count,
             'media' => MediaResource::collection($this->whenLoaded('media')),
-            'branch' => new BranchResource($this->whenLoaded('branch')),
+            'store' => new StoreResource($this->whenLoaded('store')),
         ];
     }
 }

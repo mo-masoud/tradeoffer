@@ -8,36 +8,36 @@
 	const { offer } = defineProps<{ offer: Offer }>();
 
 	interface Countdown {
-		days: string;
-		hours: string;
-		mins: string;
-		secs: string;
+		d: string;
+		h: string;
+		m: string;
+		s: string;
 	}
 
 	const countdown = ref<Countdown>({
-		days: '00',
-		hours: '00',
-		mins: '00',
-		secs: '00',
+		d: '00',
+		h: '00',
+		m: '00',
+		s: '00',
 	});
 
 	const calculateCountdown = () => {
 		const endDate = new Date(offer.end_at).getTime();
 		const now = new Date().getTime();
 		const distance = endDate - now;
-		const days = formatNumber(Math.floor(distance / (1000 * 60 * 60 * 24)));
-		const hours = formatNumber(
+		const d = formatNumber(Math.floor(distance / (1000 * 60 * 60 * 24)));
+		const h = formatNumber(
 			Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
 		);
-		const mins = formatNumber(
+		const m = formatNumber(
 			Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
 		);
-		const secs = formatNumber(Math.floor((distance % (1000 * 60)) / 1000));
+		const s = formatNumber(Math.floor((distance % (1000 * 60)) / 1000));
 		countdown.value = {
-			days,
-			hours,
-			mins,
-			secs,
+			d,
+			h,
+			m,
+			s,
 		};
 	};
 
@@ -55,17 +55,17 @@
 
 <template>
 	<Card>
-		<CardHeader class="grid grid-cols-4 divide-x p-2 lg:p-4">
+		<CardHeader class="grid grid-cols-4 divide-x px-2 py-0 lg:px-4">
 			<div
 				v-for="(object, i) in Object.entries(countdown)"
 				:key="i"
-				class="flex basis-1/4 flex-col items-center justify-center"
+				class="flex h-14 basis-1/4 flex-col-reverse items-center justify-center gap-x-0.5 md:flex-row"
 			>
-				<span class="text-xs font-semibold capitalize lg:text-lg">
-					{{ object[0] }}
-				</span>
-				<span class="text-xs font-black text-primary lg:text-lg">
+				<span class="text-lg font-black text-primary">
 					{{ object[1] }}
+				</span>
+				<span class="text-lg font-semibold capitalize md:normal-case">
+					{{ object[0] }}
 				</span>
 			</div>
 		</CardHeader>
@@ -81,19 +81,16 @@
 				<h3 class="text-sm font-semibold capitalize lg:text-base">
 					<Link href="/">{{ offer.title }}</Link>
 				</h3>
+				<h6 class="truncate text-xs capitalize lg:text-sm">
+					<Link href="/">{{ offer.description }}</Link>
+				</h6>
 				<div class="mt-2 flex flex-wrap items-center gap-x-1">
 					<Link
+						v-if="offer.store"
 						class="truncate text-xs font-semibold text-primary lg:text-sm"
 						href="/"
 					>
-						{{ offer.branch.store.name }}
-					</Link>
-					<span class="text-primary">-</span>
-					<Link
-						class="truncate text-xs text-primary lg:text-sm"
-						href="/"
-					>
-						{{ offer.branch.name }}
+						{{ offer.store.name }}
 					</Link>
 				</div>
 			</div>

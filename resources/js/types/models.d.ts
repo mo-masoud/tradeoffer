@@ -28,14 +28,15 @@ export interface Branch {
 }
 
 export interface Offer {
+	id: number;
 	title: string;
 	description: string;
-	products_count: number;
 	discount: number;
+	max_discount: number;
 	start_at: string;
 	end_at: string;
 	media: Media[];
-	branch: Branch;
+	store: Store;
 }
 
 export interface Product {
@@ -43,7 +44,11 @@ export interface Product {
 	name: string;
 	description: string;
 	price: number;
+	discount: number;
+	meta: { [key: string]: string };
+	has_offer: boolean;
 	media: Media[];
-	category: Category;
-	branch?: Branch;
+	store: Store;
+	categories: Category[];
+	branches: Branch[];
 }

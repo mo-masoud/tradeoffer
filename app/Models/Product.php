@@ -25,6 +25,8 @@ class Product extends Model implements HasMedia
     ];
 
     protected $casts = [
+        'price' => 'float',
+        'discount' => 'float',
         'meta' => 'json',
     ];
 
@@ -79,13 +81,20 @@ class Product extends Model implements HasMedia
         return $this->hasMany(ProductAddon::class);
     }
 
+    public function hasOffer(): Attribute
+    {
+        return Attribute::make(get: function () {
+            return $this->offers()->active()->exists();
+        });
+    }
+
     public function offers()
     {
         return $this->belongsToMany(Offer::class);
     }
 
-    public function scopeMostSelling($query)
+    public function scopeTopSelling($query)
     {
-        return $query;
+        return $query->with('store', 'categories', 'media')->take(12);
     }
 }
