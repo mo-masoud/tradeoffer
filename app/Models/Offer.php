@@ -49,7 +49,7 @@ class Offer extends Model implements HasMedia
 
     public function branches()
     {
-        return $this->belongsToMany(Branch::class)->where('store_id', $this->store_id);
+        return $this->belongsToMany(Branch::class);
     }
 
     public function title(): Attribute

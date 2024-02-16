@@ -21,6 +21,9 @@ class BranchResource extends JsonResource
             'latitude' => $this->location?->latitude,
             'longitude' => $this->location?->longitude,
             'covered_zone' => $this->covered_zone,
+            'distance' => $this->when($request->has('order_by_nearest'), function () {
+                return round($this->distance, 2);
+            }),
             'phone' => $this->phone,
             'store' => new StoreResource($this->whenLoaded('store')),
         ];

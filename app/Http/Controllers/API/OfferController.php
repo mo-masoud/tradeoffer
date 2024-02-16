@@ -21,6 +21,10 @@ class OfferController extends Controller
                 $request->input('store'),
                 fn($query) => $query->where('store_id', $request->input('store'))
             )
+            ->when(
+                $request->input('branch'),
+                fn($query) => $query->whereHas('branches', fn($query) => $query->where('id', $request->input('branch')))
+            )
             ->active()
             ->when($request->input('featured') == 1, fn($query) => $query->featured())
             ->latest()

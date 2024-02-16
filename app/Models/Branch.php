@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use Mostafaznv\NovaMapField\Traits\HasSpatialColumns;
 
@@ -63,5 +65,20 @@ class Branch extends Model
     public function offers()
     {
         return $this->hasMany(Offer::class);
+    }
+
+    public function scopeOrderByDistanceWithinCoveredZone($query, $point)
+    {
+        try {
+            $latitude = explode(',', $point)[0];
+            $longitude = explode(',', $point)[1];
+
+            return $query->select('*', DB::raw("ST_Distance_Sphere(location, ST_GeomFromText('POINT($longitude $latitude)')) as distance"))
+                ->selectRaw("covered_zone * 1000 as covered_zone_in_meters")
+                ->havingRaw("distance <= covered_zone_in_meters")
+                ->orderBy('distance');
+        } catch (Exception $e) {
+            return $query;
+        }
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\BranchController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\ProductController;
@@ -30,5 +31,7 @@ Route::apiResource('categories', CategoryController::class)->only(['index', 'sho
 Route::apiResource('offers', OfferController::class)->only(['index', 'show']);
 
 Route::apiResource('stores', StoreController::class)->only(['index', 'show']);
+
+Route::apiResource('branches', BranchController::class)->only(['index']);
 
 Route::apiResource('products', ProductController::class)->only(['index']);

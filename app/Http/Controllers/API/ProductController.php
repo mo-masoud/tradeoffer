@@ -25,6 +25,10 @@ class ProductController extends Controller
                 fn($query) => $query->where('store_id', $request->input('store'))
             )
             ->when(
+                $request->input('branch'),
+                fn($query) => $query->whereHas('branches', fn($query) => $query->where('id', $request->input('branch')))
+            )
+            ->when(
                 $request->input('search'),
                 fn($query) => $query->search($request->input('search'))
             )
