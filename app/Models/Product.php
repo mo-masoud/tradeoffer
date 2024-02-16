@@ -93,8 +93,40 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Offer::class);
     }
 
+    public function scopeSearch($query, $search)
+    {
+        return $query->where(
+            function ($query) use ($search) {
+                $query->where('name_en', 'like', "%$search%")
+                    ->orWhere('name_ar', 'like', "%$search%")
+                    ->orWhere('description_en', 'like', "%$search%")
+                    ->orWhere('description_ar', 'like', "%$search%");
+            }
+        );
+    }
+
+    public function scopeFilterByPrice($query, $min, $max)
+    {
+        // filter by price or discount
+        return $query->where(function ($query) use ($min, $max) {
+            $query->whereBetween('price', [$min, $max]);
+        });
+    }
+
+    public function scopeOrderByPrice($query, $order)
+    {
+        return $query->orderBy('price', $order);
+    }
+
     public function scopeTopSelling($query)
     {
-        return $query->with('store', 'categories', 'media')->take(12);
+        return $query->orderBy('id', 'desc');
+    }
+
+    public function scopeFilterByCategory($query, $category)
+    {
+        return $query->whereHas('categories', function ($query) use ($category) {
+            $query->where('id', $category);
+        });
     }
 }

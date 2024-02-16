@@ -24,6 +24,7 @@ class OfferResource extends JsonResource
             'end_at' => $this->end_at,
             'media' => MediaResource::collection($this->whenLoaded('media')),
             'store' => new StoreResource($this->whenLoaded('store')),
+            'products' => ProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }

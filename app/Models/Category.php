@@ -51,6 +51,9 @@ class Category extends Model
 
     public function scopeForHome(Builder $query)
     {
-        return $query->with('children')->active()->whereNull('parent_id')->orderBy('order');
+        return $query->when(request('children') == 1, fn($q) => $q->with('children'))
+            ->active()
+            ->whereNull('parent_id')
+            ->orderBy('order');
     }
 }

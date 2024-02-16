@@ -19,9 +19,9 @@ class HomeController extends Controller
     {
         $slider = Slider::pluck('image')->map(fn($slider) => asset('storage/' . $slider));
         $categories = Category::forHome()->get();
-        $offers = Offer::top()->get();
-        $topSellingProducts = Product::topSelling()->get();
-        $stores = Store::take(4)->get();
+        $offers = Offer::top()->take(8)->get();
+        $topSellingProducts = Product::with('store', 'categories', 'media')->topSelling()->take(12)->get();
+        $stores = Store::active()->featured()->take(4)->get();
         $latestProducts = Product::with('store', 'categories', 'media')->latest()->take(18)->get();
 
         return inertia('home/index', [

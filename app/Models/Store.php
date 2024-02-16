@@ -62,6 +62,15 @@ class Store extends Model
         return $query->where('is_active', true);
     }
 
+    public function scopeFilterByCategory($query, $category)
+    {
+        return $query->whereHas('products', function ($query) use ($category) {
+            $query->whereHas('categories', function ($query) use ($category) {
+                $query->where('id', $category);
+            });
+        });
+    }
+
     public function scopeFeatured($query)
     {
         return $query->where('featured', true);

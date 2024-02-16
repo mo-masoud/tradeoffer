@@ -21,7 +21,6 @@ class StoreResource extends JsonResource
             'description' => $this->description,
             'image' => asset(Storage::url($this->image)),
             'branches' => BranchResource::collection($this->whenLoaded('branches')),
-//            'products' => ProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }

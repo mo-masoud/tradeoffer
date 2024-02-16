@@ -66,13 +66,26 @@ class Offer extends Model implements HasMedia
         });
     }
 
+    public function scopeFilterByCategory($query, $category)
+    {
+        return $query->whereHas('products',
+            fn($query) => $query->whereHas('categories',
+                fn($query) => $query->where('id', $category)
+            )
+        );
+    }
+
+    public function scopeFeatured($query)
+    {
+        return $query->where('featured', true);
+    }
+
     public function scopeTop($query)
     {
         return $query
             ->with('media', 'store')
             ->active()
-            ->whereFeatured(true)
-            ->latest()
-            ->take(8);
+            ->featured(true)
+            ->latest();
     }
 }

@@ -20,12 +20,15 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'discount' => $this->discount,
-            'meta' => $this->meta,
+//            'tags' => (array)array_values($this->meta),
             'has_offer' => $this->has_offer,
+            'in_stock' => true,
             'store' => new StoreResource($this->whenLoaded('store')),
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'branches' => BranchResource::collection($this->whenLoaded('branches')),
             'media' => MediaResource::collection($this->whenLoaded('media')),
+            'colors' => ColorResource::collection($this->whenLoaded('colors')),
+            'sizes' => SizeResource::collection($this->whenLoaded('sizes')),
         ];
     }
 }

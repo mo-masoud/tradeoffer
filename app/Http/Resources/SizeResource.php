@@ -4,9 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
-class CategoryResource extends JsonResource
+class SizeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +16,9 @@ class CategoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'image' => asset(Storage::url($this->image)),
-            'parent' => new CategoryResource($this->whenLoaded('parent')),
-            'children' => CategoryResource::collection($this->whenLoaded('children')),
+            'size' => $this->size,
+            'extra_price' => (double)$this->pivot->extra_price,
+            'in_stock' => (bool)$this->pivot->in_stock,
         ];
     }
 }

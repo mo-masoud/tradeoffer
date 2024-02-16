@@ -18,7 +18,7 @@
 				class="flex h-44 flex-col items-center justify-center gap-y-2 p-0"
 			>
 				<img
-					:src="`/storage/${category.image}`"
+					:src="`${category.image}`"
 					alt="category"
 					class="h-20 w-20 object-cover"
 				/>
