@@ -6,11 +6,15 @@ namespace App\Models;
 use App\Models\Traits\HasRole;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @method static create(array $data)
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRole;
@@ -25,6 +29,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'avatar',
     ];
 
     /**
@@ -62,5 +67,10 @@ class User extends Authenticatable
     public function branch(): HasOne
     {
         return $this->hasOne(Branch::class);
+    }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(UserAddress::class);
     }
 }

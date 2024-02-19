@@ -7,6 +7,7 @@ use App\Nova\Filters\UserRole;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -87,6 +88,11 @@ class User extends Resource
                 ->exceptOnForms()
                 ->canSee(function ($request) {
                     return $this->role?->name === RoleEnum::BranchManager->value;
+                }),
+
+            HasMany::make('User Addresses', 'addresses', UserAddress::class)
+                ->canSee(function ($request) {
+                    return $this->role?->name === RoleEnum::User->value;
                 }),
         ];
     }

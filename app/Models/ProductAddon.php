@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,14 @@ class ProductAddon extends Model
         'in_stock',
     ];
 
+
+    public function name(): Attribute
+    {
+        return new Attribute(function ($value) {
+            return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
+        });
+    }
+    
     public function product()
     {
         return $this->belongsTo(Product::class);

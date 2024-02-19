@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::with('media', 'categories', 'colors', 'sizes')
+        $products = Product::with('media', 'categories', 'colors', 'sizes', 'store', 'attributes', 'attributes.attribute', 'addons')
             ->when(
                 $request->input('top_selling') == 1,
                 fn($query) => $query->topSelling()
