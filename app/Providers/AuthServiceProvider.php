@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Permission;
 use App\Models\User;
+use Exception;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -26,14 +27,15 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // don't run if the database is not yet set up
-        if (!app()->isBooted()) {
-            return;
-        }
 
-        Permission::with('roles')->get()->each(function ($permission) {
-            Gate::define($permission->name, function (User $user) use ($permission) {
-                return $user->hasPermission($permission->name);
+        try {
+            Permission::with('roles')->get()->each(function ($permission) {
+                Gate::define($permission->name, function (User $user) use ($permission) {
+                    return $user->hasPermission($permission->name);
+                });
             });
-        });
+        } catch (Exception $e) {
+            // do nothing
+        }
     }
 }
