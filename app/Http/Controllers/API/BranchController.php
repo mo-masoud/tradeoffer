@@ -39,11 +39,17 @@ class BranchController extends Controller
                         ->orWhereHas('products.categories', function ($query) use ($request) {
                             $query->where('name_en', 'like', '%' . $request->input('search') . '%')
                                 ->orWhere('name_ar', 'like', '%' . $request->input('search') . '%');
+                        })
+                        ->orWhereHas('store.categories', function ($query) use ($request) {
+                            $query->where('name_en', 'like', '%' . $request->input('search') . '%')
+                                ->orWhere('name_ar', 'like', '%' . $request->input('search') . '%');
                         });
                 });
             })
             ->when($request->has('category'), function ($query) use ($request) {
                 $query->whereHas('products.categories', function ($query) use ($request) {
+                    $query->where('id', $request->input('category'));
+                })->orWhereHas('store.categories', function ($query) use ($request) {
                     $query->where('id', $request->input('category'));
                 });
             })
