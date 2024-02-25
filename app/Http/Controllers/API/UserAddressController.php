@@ -38,6 +38,12 @@ class UserAddressController extends Controller
         ];
         $address = auth()->user()->addresses()->create($data);
 
+        if ($request->input('is_primary')) {
+            auth()->user()->addresses()->whereKeyNot($address->id)->update([
+                'is_primary' => false,
+            ]);
+        }
+
         return api_response(
             new UserAddressResource($address),
             201
