@@ -5,9 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @property mixed $description_en
+ * @property mixed $description_ar
+ * @property mixed $name_en
+ * @property mixed $name_ar
+ */
 class Product extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
@@ -34,49 +43,49 @@ class Product extends Model implements HasMedia
 
     public function name(): Attribute
     {
-        return new Attribute(function ($value) {
+        return new Attribute(function () {
             return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
         });
     }
 
     public function description(): Attribute
     {
-        return new Attribute(function ($value) {
+        return new Attribute(function () {
             return app()->getLocale() == 'ar' ? $this->description_ar : $this->description_en;
         });
     }
 
-    public function categories()
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function branches()
+    public function branches(): BelongsToMany
     {
         return $this->belongsToMany(Branch::class)->withPivot('in_stock');
     }
 
-    public function sizes()
+    public function sizes(): BelongsToMany
     {
         return $this->belongsToMany(Size::class)->withPivot('extra_price', 'in_stock');
     }
 
-    public function colors()
+    public function colors(): BelongsToMany
     {
         return $this->belongsToMany(Color::class)->withPivot('extra_price', 'in_stock');
     }
 
-    public function attributes()
+    public function attributes(): BelongsToMany
     {
         return $this->belongsToMany(AttributeValue::class)->withPivot('extra_price', 'in_stock');
     }
 
-    public function addons()
+    public function addons(): HasMany
     {
         return $this->hasMany(ProductAddon::class);
     }
@@ -88,7 +97,7 @@ class Product extends Model implements HasMedia
         });
     }
 
-    public function offers()
+    public function offers(): BelongsToMany
     {
         return $this->belongsToMany(Offer::class);
     }
@@ -125,8 +134,12 @@ class Product extends Model implements HasMedia
 
     public function scopeFilterByCategory($query, $category)
     {
-        return $query->whereHas('categories', function ($query) use ($category) {
-            $query->where('id', $category);
+        return $query->where(function ($query) use ($category) {
+            $query->whereHas('categories', function ($query) use ($category) {
+                $query->where('id', $category);
+            })->orWhereHas('store.categories', function ($query) use ($category) {
+                $query->where('id', $category);
+            });
         });
     }
 }

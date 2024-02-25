@@ -95,8 +95,7 @@ class Product extends Resource
             Tag::make('Categories')
                 ->withPreview()
                 ->preload()
-                ->displayAsList()
-                ->showCreateRelationButton(),
+                ->displayAsList(),
 
             Tag::make('Colors')
                 ->withPreview()

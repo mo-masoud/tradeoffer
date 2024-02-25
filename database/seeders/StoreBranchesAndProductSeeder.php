@@ -27,6 +27,7 @@ class StoreBranchesAndProductSeeder extends Seeder
                 'name_ar' => 'سيجما تك',
                 'description_en' => 'SigmaTech is a electronics store that sells all kinds of electronics and gadgets.',
                 'description_ar' => 'سيجما تك هو متجر إلكترونيات يبيع جميع أنواع الإلكترونيات والأجهزة.',
+                'category' => 'Electronics',
                 'products' => [
                     [
                         'name_en' => 'HAVIT HV-G92 Gamepad',
@@ -246,6 +247,7 @@ class StoreBranchesAndProductSeeder extends Seeder
                 'name_ar' => 'اولاد رجب',
                 'description_en' => 'Ragab\'s Sons is hypermarket that sells all kinds of groceries, food and furniture.',
                 'description_ar' => 'اولاد رجب هو هايبر ماركت يبيع جميع أنواع البقالة والطعام والأثاث.',
+                'category' => 'Hypermarket',
                 'products' => [
                     [
                         'name_en' => 'Fresh Chicken',
@@ -374,6 +376,8 @@ class StoreBranchesAndProductSeeder extends Seeder
                 'image' => "store$i.png",
                 'user_id' => $user->id,
             ]);
+
+            $storeModel->categories()->attach($categories->where('name_en', $store['category'])->first()->id);
 
             $productsIds = [];
             // Create products

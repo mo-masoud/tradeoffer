@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Tag;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -71,6 +72,11 @@ class Store extends Resource
                 ->nullable()
                 ->hideFromIndex()
                 ->rules('max:255'),
+
+            Tag::make('Categories')
+                ->withPreview()
+                ->preload()
+                ->displayAsList(),
 
             BelongsTo::make('Store Manager', 'user', User::class)
                 ->showCreateRelationButton()

@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Closure;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property mixed $name_en
  * @property mixed $description_ar
  * @property mixed $description_en
+ * @method static when(mixed $input, Closure $param)
  */
 class Store extends Model
 {
@@ -55,6 +58,11 @@ class Store extends Model
         return $this->hasMany(Branch::class);
     }
 
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
@@ -72,8 +80,12 @@ class Store extends Model
 
     public function scopeFilterByCategory($query, $category)
     {
-        return $query->whereHas('products', function ($query) use ($category) {
-            $query->whereHas('categories', function ($query) use ($category) {
+        return $query->where(function ($query) use ($category) {
+            $query->whereHas('products', function ($query) use ($category) {
+                $query->whereHas('categories', function ($query) use ($category) {
+                    $query->where('id', $category);
+                });
+            })->orWhereHas('categories', function ($query) use ($category) {
                 $query->where('id', $category);
             });
         });

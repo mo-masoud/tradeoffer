@@ -6,11 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\OfferCollection;
 use App\Http\Resources\OfferResource;
 use App\Models\Offer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class OfferController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $offers = Offer::with('media', 'store')
             ->when(
@@ -36,7 +37,7 @@ class OfferController extends Controller
         );
     }
 
-    public function show(Offer $offer)
+    public function show(Offer $offer): JsonResponse
     {
         return api_response(
             new OfferResource($offer->load(['products' => [

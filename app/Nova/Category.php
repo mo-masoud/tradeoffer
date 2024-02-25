@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
@@ -40,9 +41,31 @@ class Category extends Resource
 
     public static function indexQuery(NovaRequest $request, $query): Builder
     {
-        if ($request->viaRelationship()) {
+        $url = Str::after($request->headers->get('referer'), 'resources/');
+
+        if ($url === 'products/new') {
+            // TODO:: get categories from user
+            return $query->whereNotNull('parent_id');
+        }
+
+        $pattern = "/products\/(\d+)\/edit/";
+        preg_match($pattern, $url, $matches);
+
+        if (!empty($matches)) {
+            $productId = $matches[1];
+            $product = \App\Models\Product::with('store.categories')->find($productId);
+            $categories = $product->store->categories->pluck('id')->toArray();
+            return $query->whereIn('parent_id', $categories);
+        }
+
+        if ($url === 'categories') {
+            return $query->whereNull('parent_id');
+        }
+
+        if (Str::contains($url, 'categories')) {
             return $query;
         }
+
         return $query->whereNull('parent_id');
     }
 
