@@ -18,52 +18,25 @@ class CategorySeeder extends Seeder
                 'name_ar' => 'هايبر ماركت',
             ],
             [
-                'name_en' => 'Butchery',
-                'name_ar' => 'جزارة',
-            ],
-            [
-                'name_en' => 'Bakery',
-                'name_ar' => 'مخبز',
-            ],
-            [
-                'name_en' => 'Pharmacy',
-                'name_ar' => 'صيدلية',
-            ],
-            [
-                'name_en' => 'Food & Groceries',
-                'name_ar' => 'الطعام والبقالة',
-            ],
-            [
                 'name_en' => 'Electronics',
                 'name_ar' => 'الإلكترونيات',
             ],
             [
-                'name_en' => 'Fashion',
-                'name_ar' => 'الموضة',
+                'name_en' => 'Restaurants & Sweets',
+                'name_ar' => 'المطاعم والحلويات',
             ],
             [
-                'name_en' => 'Health & Beauty',
-                'name_ar' => 'الصحة والجمال',
-            ],
-            [
-                'name_en' => 'Kids & Babies',
-                'name_ar' => 'الأطفال والرضع',
-            ],
-            [
-                'name_en' => 'Books & Stationery',
-                'name_ar' => 'الكتب والقرطاسية',
-            ],
-            [
-                'name_en' => 'Sports & Outdoors',
-                'name_ar' => 'الرياضة والهواء الطلق',
-            ],
+                'name_en' => 'Housewares & kitchen supplies',
+                'name_ar' => 'أدوات المنزل ولوازم المطبخ',
+            ]
         ];
 
         foreach ($categories as $i => $category) {
             Category::updateOrCreate([
                 'name_en' => $category['name_en'],
                 'name_ar' => $category['name_ar'],
-                'image' => $category['name_en'] . '.png',
+                'image_en' => $category['name_en'] . '.png',
+                'image_ar' => $category['name_en'] . '.png',
                 'order' => $i + 1,
             ]);
         }
@@ -73,13 +46,42 @@ class CategorySeeder extends Seeder
         $electronics->children()->create([
             'name_en' => 'Mobiles & Tablets',
             'name_ar' => 'الهواتف المحمولة والأجهزة اللوحية',
-            'image' => 'Mobiles & Tablets.png',
+            'image_en' => 'Mobiles & Tablets.png',
+            'image_ar' => 'Mobiles & Tablets.png',
             'order' => 1
         ]);
+
         $electronics->children()->create([
             'name_en' => 'Laptops & Computers',
             'name_ar' => 'أجهزة الكمبيوتر المحمولة والكمبيوترات',
-            'image' => 'Laptops & Computers.png',
+            'image_en' => 'Laptops & Computers.png',
+            'image_ar' => 'Laptops & Computers.png',
+            'order' => 2
+        ]);
+
+        $electronics->children()->create([
+            'name_en' => 'Games & Consoles',
+            'name_ar' => 'ألعاب الفيديو وأجهزة الألعاب',
+            'image_en' => 'Laptops & Computers.png',
+            'image_ar' => 'Laptops & Computers.png',
+            'order' => 3
+        ]);
+
+        $hypermarket = Category::where('name_en', 'Hypermarket')->first();
+
+        $hypermarket->children()->create([
+            'name_en' => 'Butchery',
+            'name_ar' => 'الجزارة',
+            'image_en' => 'Butchery.png',
+            'image_ar' => 'Butchery.png',
+            'order' => 1
+        ]);
+
+        $hypermarket->children()->create([
+            'name_en' => 'Food & Groceries',
+            'name_ar' => 'الطعام والبقالة',
+            'image_en' => 'Food & Groceries.png',
+            'image_ar' => 'Food & Groceries.png',
             'order' => 2
         ]);
     }

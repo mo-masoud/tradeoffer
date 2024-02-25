@@ -14,7 +14,8 @@ class Category extends Model
     protected $fillable = [
         'name_en',
         'name_ar',
-        'image',
+        'image_en',
+        'image_ar',
         'parent_id',
         'order',
         'is_active',
@@ -29,8 +30,15 @@ class Category extends Model
 
     public function name(): Attribute
     {
-        return new Attribute(function ($value) {
+        return Attribute::make(get: function ($value) {
             return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
+        });
+    }
+
+    public function image(): Attribute
+    {
+        return Attribute::make(get: function ($value) {
+            return app()->getLocale() == 'ar' ? $this->image_ar : $this->image_en;
         });
     }
 

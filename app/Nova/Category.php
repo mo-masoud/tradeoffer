@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
@@ -36,7 +38,7 @@ class Category extends Resource
         'id', 'name_en', 'name_ar',
     ];
 
-    public static function indexQuery(NovaRequest $request, $query)
+    public static function indexQuery(NovaRequest $request, $query): Builder
     {
         if ($request->viaRelationship()) {
             return $query;
@@ -44,7 +46,7 @@ class Category extends Resource
         return $query->whereNull('parent_id');
     }
 
-    public static function defaultOrderings($query)
+    public static function defaultOrderings($query): Relation|Builder
     {
         return $query->orderBy('order');
     }
@@ -55,12 +57,19 @@ class Category extends Resource
      * @param NovaRequest $request
      * @return array
      */
-    public function fields(NovaRequest $request)
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make()->sortable(),
 
-            Image::make('Image')
+            Image::make('English Image', 'image_en')
+                ->disk('public')
+                ->path('categories')
+                ->creationRules('required', 'image')
+                ->updateRules('image')
+                ->detailWidth(400),
+
+            Image::make('Arabic Image', 'image_ar')
                 ->disk('public')
                 ->path('categories')
                 ->creationRules('required', 'image')

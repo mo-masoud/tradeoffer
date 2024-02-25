@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name_en');
             $table->string('name_ar');
-            $table->string('image', 2000)->nullable();
+            $table->string('image_en', 1000);
+            $table->string('image_ar', 1000);
             $table->foreignId('parent_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->integer('order')->default(1);
             $table->boolean('is_active')->default(true);

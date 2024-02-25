@@ -39,7 +39,7 @@ class OfferSeeder extends Seeder
                 'featured' => true,
             ],
             [
-                'store_id' => 3,
+                'store_id' => 2,
                 'title_en' => '30% Off',
                 'title_ar' => 'خصم 30%',
                 'description_en' => '30% Off on all products',
@@ -51,7 +51,7 @@ class OfferSeeder extends Seeder
                 'featured' => true,
             ],
             [
-                'store_id' => 4,
+                'store_id' => 2,
                 'title_en' => 'Buy 2 Get 1 Free',
                 'title_ar' => 'اشتري 2 واحصل على 1 مجاناً',
                 'description_en' => 'Buy 2 Get 1 Free on all products',

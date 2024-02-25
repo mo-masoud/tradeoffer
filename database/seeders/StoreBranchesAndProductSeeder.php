@@ -35,7 +35,7 @@ class StoreBranchesAndProductSeeder extends Seeder
                         'description_ar' => 'هافيت HV-G92 جيم باد هو جيم باد متوافق مع الكمبيوتر و PS3.',
                         'price' => 15.99,
                         'discount' => 0,
-                        'category' => 'Electronics',
+                        'category' => 'Games & Consoles',
                         'meta' => [
                             'brand' => 'HAVIT',
                             'model' => 'HV-G92',
@@ -70,7 +70,7 @@ class StoreBranchesAndProductSeeder extends Seeder
                         'description_ar' => 'أيه كيه-900 لوحة مفاتيح سلكية هي لوحة مفاتيح سلكية متوافقة مع الكمبيوتر والكمبيوتر المحمول.',
                         'price' => 9.99,
                         'discount' => 0,
-                        'category' => 'Electronics',
+                        'category' => 'Laptops & Computers',
                         'meta' => [
                             'brand' => 'AK',
                             'model' => '900',
@@ -128,7 +128,7 @@ class StoreBranchesAndProductSeeder extends Seeder
                         'description_ar' => 'كاميرا CANON EOS DSLR هي كاميرا احترافية بمستشعر 24.1 ميجابكسل.',
                         'price' => 499.99,
                         'discount' => 0,
-                        'category' => 'Electronics',
+                        'category' => 'Laptops & Computers',
                         'meta' => [
                             'brand' => 'CANON',
                             'model' => 'EOS DSLR Camera',
@@ -173,7 +173,7 @@ class StoreBranchesAndProductSeeder extends Seeder
                         'description_ar' => 'GP11 شوتر جيم باد USB هو جيم باد متوافق مع الكمبيوتر و PS4.',
                         'price' => 19.99,
                         'discount' => 0,
-                        'category' => 'Electronics',
+                        'category' => 'Games & Consoles',
                         'meta' => [
                             'brand' => 'GP11',
                             'model' => 'Shooter USB Gamepad',
@@ -203,7 +203,7 @@ class StoreBranchesAndProductSeeder extends Seeder
                         'description_ar' => 'بلايستيشن 5 هو جهاز ألعاب بدعم 8K وصوت ثلاثي الأبعاد.',
                         'price' => 499.99,
                         'discount' => 0,
-                        'category' => 'Electronics',
+                        'category' => 'Games & Consoles',
                         'meta' => [
                             'brand' => 'Sony',
                             'models' => 'slim / pro',
@@ -284,289 +284,6 @@ class StoreBranchesAndProductSeeder extends Seeder
                         'colors' => [],
                     ],
                     [
-                        'name_en' => 'Curology Product Set',
-                        'name_ar' => 'مجموعة منتجات كيورولوجي',
-                        'description_en' => 'Curology Product Set is a set of skin care products for acne and dark spots.',
-                        'description_ar' => 'مجموعة منتجات كيورولوجي هي مجموعة منتجات العناية بالبشرة لحب الشباب والبقع الداكنة.',
-                        'price' => 49.99,
-                        'discount' => 0,
-                        'category' => 'Health & Beauty',
-                        'meta' => [
-                            'type' => 'Skin Care',
-                            'skin_issues' => 'Acne / Dark Spots',
-                        ],
-                        'sizes' => [],
-                        'images' => [
-                            'Curology Product Set.png',
-                        ],
-                        'colors' => [],
-                    ],
-                    [
-                        'name_en' => 'Kids Electric Car',
-                        'name_ar' => 'سيارة كهربائية للأطفال',
-                        'description_en' => 'Kids Electric Car is a small electric car for kids with remote control.',
-                        'description_ar' => 'سيارة كهربائية للأطفال هي سيارة كهربائية صغيرة للأطفال مع جهاز التحكم عن بعد.',
-                        'price' => 199.99,
-                        'discount' => 0,
-                        'category' => 'Kids & Babies',
-                        'meta' => [
-                            'type' => 'Electric Car',
-                            'age' => '3-8 years',
-                        ],
-                        'sizes' => [],
-                        'images' => [
-                            'Kids Electric Car.png',
-                        ],
-                        'colors' => [
-                            '#FF0000' => [],
-                            '#00FF00' => [],
-                            '#0000FF' => [
-                                'extra_price' => 10,
-                                'in_stock' => true,
-                            ],
-                        ],
-                    ],
-                    [
-                        'name_en' => 'Small BookSelf',
-                        'name_ar' => 'رف كتب صغير',
-                        'description_en' => 'Small BookSelf is a small bookshelf for kids room.',
-                        'description_ar' => 'رف الكتب الصغير هو رف صغير لغرفة الأطفال.',
-                        'price' => 49.99,
-                        'discount' => 0,
-                        'category' => 'Hypermarket',
-                        'meta' => [
-                            'type' => 'Bookshelf',
-                            'room' => 'Kids Room',
-                        ],
-                        'sizes' => [],
-                        'images' => [
-                            'Small BookSelf.png',
-                        ],
-                        'colors' => [],
-                    ],
-                    [
-                        'name_en' => 'S-Series Comfort Chair',
-                        'name_ar' => 'كرسي الراحة سلسلة S',
-                        'description_en' => 'S-Series Comfort Chair is a comfortable chair for living room.',
-                        'description_ar' => 'كرسي الراحة سلسلة S هو كرسي مريح لغرفة المعيشة.',
-                        'price' => 99.99,
-                        'discount' => 0,
-                        'category' => 'Hypermarket',
-                        'meta' => [
-                            'type' => 'Comfort Chair',
-                            'room' => 'Living Room',
-                        ],
-                        'sizes' => [],
-                        'images' => [
-                            'S-Series Comfort Chair.png',
-                        ],
-                        'colors' => [
-                            '#FF0000' => [],
-                            '#00FF00' => [],
-                            '#0000FF' => [],
-                        ],
-                    ]
-                ],
-                'branches' => [
-                    [
-                        'name_en' => 'Ragab\'s Sons - Amman - Abu Nseir',
-                        'name_ar' => 'اولاد رجب - عمان - أبو نصير',
-                        'address_en' => 'Abu Nseir, Amman, Jordan',
-                        'address_ar' => 'أبو نصير، عمان، الأردن',
-                        'phone' => '+962 6 464 2266',
-                        'location' => new Point(31.9513, 35.9336),
-                        'with_manager' => false,
-                    ],
-                    [
-                        'name_en' => 'Ragab\'s Sons - Amman - Al-Weibdeh',
-                        'name_ar' => 'اولاد رجب - عمان - الويبده',
-                        'address_en' => 'Al-Weibdeh, Amman, Jordan',
-                        'address_ar' => 'الويبده، عمان، الأردن',
-                        'phone' => '+962 6 464 2266',
-                        'location' => new Point(31.9513, 35.9336),
-                        'with_manager' => false,
-                    ]
-                ],
-            ],
-            [
-                'name_en' => 'Roma',
-                'name_ar' => 'روما',
-                'description_en' => 'Roma is a clothing store that sells all kinds of clothes and accessories.',
-                'description_ar' => 'روما هو متجر ملابس يبيع جميع أنواع الملابس والاكسسوارات.',
-                'products' => [
-                    [
-                        'name_en' => 'The north coat',
-                        'name_ar' => 'معطف الشمال',
-                        'description_en' => 'The north coat is a winter coat that is waterproof and windproof.',
-                        'description_ar' => 'معطف الشمال هو معطف شتوي مقاوم للماء ومقاوم للرياح.',
-                        'price' => 99.99,
-                        'discount' => 0,
-                        'category' => 'Fashion',
-                        'meta' => [
-                            'type' => 'Winter Coat',
-                        ],
-                        'sizes' => [
-                            'S' => [],
-                            'M' => [],
-                            'L' => [],
-                            'XL' => [
-                                'extra_price' => 5,
-                                'in_stock' => true,
-                            ],
-                        ],
-                        'images' => [
-                            'The north coat.png',
-                        ],
-                        'colors' => [
-                            '#FF0000' => [],
-                            '#00FF00' => [],
-                            '#0000FF' => [
-                                'extra_price' => 10,
-                                'in_stock' => true,
-                            ],
-                        ],
-                    ],
-                    [
-                        'name_en' => 'Gucci duffle bag',
-                        'name_ar' => 'حقيبة جوتشي الرياضية',
-                        'description_en' => 'Gucci duffle bag is a sports bag that is made of leather and has a large capacity.',
-                        'description_ar' => 'حقيبة جوتشي الرياضية هي حقيبة رياضية مصنوعة من الجلد ولها سعة كبيرة.',
-                        'price' => 299.99,
-                        'discount' => 0,
-                        'category' => 'Fashion',
-                        'meta' => [
-                            'type' => 'Sports Bag',
-                            'material' => 'Leather',
-                            'capacity' => 'Large',
-                        ],
-                        'sizes' => [],
-                        'images' => [
-                            'Gucci duffle bag.png',
-                        ],
-                        'colors' => [
-                            '#FF0000' => [],
-                            '#00FF00' => [],
-                            '#0000FF' => [
-                                'extra_price' => 50,
-                                'in_stock' => true,
-                            ],
-                        ],
-                    ],
-                    [
-                        'name_en' => 'Quilted Satin Jacket',
-                        'name_ar' => 'جاكيت الساتان المبطن',
-                        'description_en' => 'Quilted Satin Jacket is a light jacket that is made of satin and has a quilted design.',
-                        'description_ar' => 'جاكيت الساتان المبطن هو جاكيت خفيف مصنوع من الساتان وله تصميم مبطن.',
-                        'price' => 49.99,
-                        'discount' => 0,
-                        'category' => 'Fashion',
-                        'meta' => [
-                            'type' => 'Light Jacket',
-                            'material' => 'Satin',
-                            'design' => 'Quilted',
-                            'gender_en' => 'Male / Female',
-                            'gender_ar' => 'ذكر / أنثى',
-                        ],
-                        'sizes' => [
-                            'S' => [],
-                            'M' => [],
-                            'L' => [
-                                'extra_price' => 3,
-                                'in_stock' => true,
-                            ],
-                            'XL' => [
-                                'extra_price' => 5,
-                                'in_stock' => true,
-                            ],
-                        ],
-                        'images' => [
-                            'Quilted Satin Jacket.png',
-                        ],
-                        'colors' => [
-                            '#FF0000' => [
-                                'extra_price' => 2,
-                                'in_stock' => true,
-                            ],
-                            '#00FF00' => [
-                                'extra_price' => 3,
-                                'in_stock' => true,
-                            ],
-                            '#0000FF' => [
-                                'extra_price' => 5,
-                                'in_stock' => true,
-                            ],
-                        ],
-                    ],
-                    [
-                        'name_en' => 'Jr. Zoom Soccer Cleats',
-                        'name_ar' => 'حذاء كرة القدم Jr. Zoom',
-                        'description_en' => 'Jr. Zoom Soccer Cleats is a pair of soccer cleats for kids with zoom technology.',
-                        'description_ar' => 'حذاء كرة القدم Jr. Zoom هو زوج من حذاء كرة القدم للأطفال بتقنية الزووم.',
-                        'price' => 29.99,
-                        'discount' => 0,
-                        'category' => 'Sports & Outdoors',
-                        'meta' => [
-                            'type' => 'Soccer Cleats',
-                            'technology' => 'Zoom',
-                            'age' => '6-12 years',
-                        ],
-                        'sizes' => [
-                            '28' => [],
-                            '29' => [],
-                            '30' => [],
-                            '31' => [],
-                            '32' => [],
-                            '33' => [
-                                'extra_price' => 5,
-                                'in_stock' => true,
-                            ],
-                            '34' => [
-                                'extra_price' => 5.5,
-                                'in_stock' => true,
-                            ],
-                            '35' => [
-                                'extra_price' => 6,
-                                'in_stock' => true,
-                            ],
-                        ],
-                        'images' => [
-                            'Jr. Zoom Soccer Cleats.png',
-                        ],
-                        'colors' => [
-                            '#FF0000' => [],
-                            '#00FF00' => [],
-                            '#0000FF' => [],
-                        ],
-                    ]
-                ],
-                'branches' => [
-                    [
-                        'name_en' => 'Roma - Amman - Abdoun',
-                        'name_ar' => 'روما - عمان - عبدون',
-                        'address_en' => 'Abdoun, Amman, Jordan',
-                        'address_ar' => 'عبدون، عمان، الأردن',
-                        'phone' => '+962 6 464 2266',
-                        'location' => new Point(31.9513, 35.9336),
-                        'with_manager' => true,
-                    ],
-                    [
-                        'name_en' => 'Roma - Amman - Al-Swefieh',
-                        'name_ar' => 'روما - عمان - الصويفية',
-                        'address_en' => 'Al-Swefieh, Amman, Jordan',
-                        'address_ar' => 'الصويفية، عمان، الأردن',
-                        'phone' => '+962 6 464 2266',
-                        'location' => new Point(31.9513, 35.9336),
-                        'with_manager' => true,
-                    ],
-                ],
-            ],
-            [
-                'name_en' => 'Al-Madina',
-                'name_ar' => 'المدينة',
-                'description_en' => 'Al-Madina is a grocery store that sells all kinds of groceries and food.',
-                'description_ar' => 'المدينة هو متجر بقالة يبيع جميع أنواع البقالة والطعام.',
-                'products' => [
-                    [
                         'name_en' => 'Chicken Burger',
                         'name_ar' => 'برجر الدجاج',
                         'description_en' => 'Chicken Burger is a burger made of chicken meat with lettuce and mayonnaise.',
@@ -614,16 +331,25 @@ class StoreBranchesAndProductSeeder extends Seeder
                 ],
                 'branches' => [
                     [
-                        'name_en' => 'Al-Madina - Amman - Al-Weibdeh',
-                        'name_ar' => 'المدينة - عمان - الويبده',
+                        'name_en' => 'Ragab\'s Sons - Amman - Abu Nseir',
+                        'name_ar' => 'اولاد رجب - عمان - أبو نصير',
+                        'address_en' => 'Abu Nseir, Amman, Jordan',
+                        'address_ar' => 'أبو نصير، عمان، الأردن',
+                        'phone' => '+962 6 464 2266',
+                        'location' => new Point(31.9513, 35.9336),
+                        'with_manager' => false,
+                    ],
+                    [
+                        'name_en' => 'Ragab\'s Sons - Amman - Al-Weibdeh',
+                        'name_ar' => 'اولاد رجب - عمان - الويبده',
                         'address_en' => 'Al-Weibdeh, Amman, Jordan',
                         'address_ar' => 'الويبده، عمان، الأردن',
                         'phone' => '+962 6 464 2266',
                         'location' => new Point(31.9513, 35.9336),
                         'with_manager' => false,
-                    ],
+                    ]
                 ],
-            ]
+            ],
         ];
 
         $categories = Category::all();
