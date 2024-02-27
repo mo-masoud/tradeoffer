@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->text('description_en')->nullable();
             $table->text('description_ar')->nullable();
             $table->string('image', 2000);
+            $table->string('cover_image', 2000);
             $table->json('phones')->nullable();
             $table->json('emails')->nullable();
             $table->boolean('featured')->default(false);

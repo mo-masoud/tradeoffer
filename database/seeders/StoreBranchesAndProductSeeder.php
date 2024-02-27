@@ -374,6 +374,7 @@ class StoreBranchesAndProductSeeder extends Seeder
                 'description_en' => $store['description_en'],
                 'description_ar' => $store['description_ar'],
                 'image' => "store$i.png",
+                'cover_image' => "store$i.png",
                 'user_id' => $user->id,
             ]);
 

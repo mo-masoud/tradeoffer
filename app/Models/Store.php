@@ -28,6 +28,7 @@ class Store extends Model
         'description_en',
         'description_ar',
         'image',
+        'cover_image',
         'featured',
         'is_active',
     ];

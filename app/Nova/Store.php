@@ -55,6 +55,15 @@ class Store extends Resource
                 ->indexWidth(100)
                 ->detailWidth(400),
 
+            Image::make('Cover Image')
+                ->deletable(false)
+                ->disk('public')
+                ->path('stores')
+                ->creationRules('required')
+                ->updateRules('image')
+                ->indexWidth(100)
+                ->detailWidth(400),
+
             Text::make('Name (English)', 'name_en')
                 ->sortable()
                 ->rules('required', 'max:255'),
