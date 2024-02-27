@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\RoleEnum;
+use App\Models\AttributeValue;
 use App\Models\Branch;
 use App\Models\Category;
 use App\Models\Color;
@@ -396,6 +397,15 @@ class StoreBranchesAndProductSeeder extends Seeder
                 ]);
 
                 $productModel->categories()->attach($categories->where('name_en', $product['category'])->first()->id);
+
+                if ($productModel->id === 6) {
+                    $attributeValue = AttributeValue::create([
+                        'attribute_id' => 10,
+                        'value_en' => '8GB',
+                        'value_ar' => '8GB',
+                    ]);
+                    $productModel->attributes()->attach([$attributeValue->id]);
+                }
 
                 $productsIds[] = $productModel->id;
 

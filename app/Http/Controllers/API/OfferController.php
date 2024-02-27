@@ -41,7 +41,7 @@ class OfferController extends Controller
     {
         return api_response(
             new OfferResource($offer->load(['products' => [
-                'media', 'categories'
+                'media', 'categories', 'colors', 'sizes', 'store', 'attributes', 'attributes.attribute', 'addons'
             ], 'store', 'media']))
         );
     }
