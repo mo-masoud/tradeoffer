@@ -3,22 +3,17 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreIndexRequest;
 use App\Http\Resources\StoreCollection;
 use App\Http\Resources\StoreResource;
 use App\Models\Store;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(StoreIndexRequest $request): JsonResponse
     {
-        $stores = Store::when(
-            $request->input('category'),
-            fn($query) => $query->filterByCategory($request->input('category'))
-        )->when($request->input('featured') == 1, fn($query) => $query->featured())
-            ->active()
-            ->latest()
+        $stores = $request->buildQuery()
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
@@ -27,7 +22,7 @@ class StoreController extends Controller
         );
     }
 
-    public function show(Store $store)
+    public function show(Store $store): JsonResponse
     {
         return api_response(
             new StoreResource($store->load([

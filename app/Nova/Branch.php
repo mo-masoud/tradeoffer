@@ -93,6 +93,8 @@ class Branch extends Resource
                 ->rules('required')
                 ->canSeeWhen('branches.create'),
 
+            Number::make('Rating')->sortable()->hideWhenCreating()->hideWhenUpdating(),
+
             Text::make('Phone')
                 ->sortable()
                 ->rules('nullable', 'max:255'),

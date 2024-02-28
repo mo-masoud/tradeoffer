@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @property mixed $name_ar
@@ -31,6 +32,7 @@ class Store extends Model
         'cover_image',
         'featured',
         'is_active',
+        'rating',
     ];
 
     protected $appends = ['name', 'description'];
@@ -52,6 +54,11 @@ class Store extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function branches(): HasMany

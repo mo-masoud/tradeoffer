@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BranchController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProfileController;
@@ -43,6 +44,8 @@ Route::apiResource('branches', BranchController::class)->only(['index']);
 
 Route::apiResource('products', ProductController::class)->only(['index']);
 
+Route::get('comments', [CommentController::class, 'index']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
@@ -50,4 +53,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('profile', [ProfileController::class, 'update']);
 
     Route::apiResource('user-addresses', UserAddressController::class)->except(['show']);
+
+    Route::post('comments', [CommentController::class, 'store']);
 });

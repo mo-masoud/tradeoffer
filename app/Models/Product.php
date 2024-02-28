@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -31,6 +32,7 @@ class Product extends Model implements HasMedia
         'category_id',
         'store_id',
         'discount',
+        'rating',
     ];
 
     protected $casts = [
@@ -83,6 +85,11 @@ class Product extends Model implements HasMedia
     public function attributes(): BelongsToMany
     {
         return $this->belongsToMany(AttributeValue::class)->withPivot('extra_price', 'in_stock');
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function addons(): HasMany

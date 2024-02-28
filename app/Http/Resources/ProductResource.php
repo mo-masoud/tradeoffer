@@ -12,6 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed $price
  * @property mixed $description
  * @property mixed $name
+ * @property mixed $rating
  */
 class ProductResource extends JsonResource
 {
@@ -29,6 +30,7 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'discount' => $this->discount,
 //            'tags' => (array)array_values($this->meta),
+            'rating' => (double)$this->rating,
             'has_offer' => $this->has_offer,
             'in_stock' => true,
             'attributes' => ProductAttributeResource::collection($this->whenLoaded('attributes')),

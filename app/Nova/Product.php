@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
+use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Tag;
 use Laravel\Nova\Fields\Text;
@@ -92,6 +93,8 @@ class Product extends Resource
                 ->step(0.01)
                 ->max(100),
 
+            Number::make('Rating')->sortable()->hideWhenCreating()->hideWhenUpdating(),
+
             Tag::make('Categories')
                 ->withPreview()
                 ->preload()
@@ -153,6 +156,8 @@ class Product extends Resource
                 }),
 
             HasMany::make('Addons', 'addons', ProductAddon::class),
+
+            MorphMany::make('Comments'),
         ];
     }
 

@@ -5,6 +5,16 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property mixed $rating
+ * @property mixed $phone
+ * @property mixed $distance
+ * @property mixed $covered_zone
+ * @property mixed $location
+ * @property mixed $address
+ * @property mixed $name
+ * @property mixed $id
+ */
 class BranchResource extends JsonResource
 {
     /**
@@ -25,6 +35,7 @@ class BranchResource extends JsonResource
                 return round($this->distance, 2);
             }),
             'phone' => $this->phone,
+            'rating' => (double)$this->rating,
             'store' => new StoreResource($this->whenLoaded('store')),
         ];
     }

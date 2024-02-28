@@ -6,10 +6,20 @@ use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\DB;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use Mostafaznv\NovaMapField\Traits\HasSpatialColumns;
 
+/**
+ * @property mixed $address_en
+ * @property mixed $address_ar
+ * @property mixed $name_en
+ * @property mixed $name_ar
+ */
 class Branch extends Model
 {
     use HasFactory, HasSpatialColumns;
@@ -25,6 +35,7 @@ class Branch extends Model
         'user_id',
         'covered_zone',
         'is_active',
+        'rating',
     ];
 
     protected $casts = [
@@ -47,22 +58,27 @@ class Branch extends Model
         });
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function user()
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function products()
+    public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)->withPivot('in_stock');
     }
 
-    public function offers()
+    public function offers(): HasMany
     {
         return $this->hasMany(Offer::class);
     }
@@ -77,7 +93,7 @@ class Branch extends Model
                 ->selectRaw("covered_zone * 1000 as covered_zone_in_meters")
                 ->havingRaw("distance <= covered_zone_in_meters")
                 ->orderBy('distance');
-        } catch (Exception $e) {
+        } catch (Exception $_) {
             return $query;
         }
     }

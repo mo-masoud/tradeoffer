@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Tag;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -86,6 +87,8 @@ class Store extends Resource
                 ->withPreview()
                 ->preload()
                 ->displayAsList(),
+
+            Number::make('Rating')->sortable()->hideWhenCreating()->hideWhenUpdating(),
 
             BelongsTo::make('Store Manager', 'user', User::class)
                 ->showCreateRelationButton()
