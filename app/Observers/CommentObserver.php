@@ -3,6 +3,8 @@
 namespace App\Observers;
 
 use App\Models\Comment;
+use App\Models\Product;
+use App\Models\Store;
 
 class CommentObserver
 {
@@ -13,13 +15,20 @@ class CommentObserver
         ]);
 
         if ($comment->commentable_type === 'App\Models\Product') {
-            $comment->commentable->store->update([
-                'rating' => $this->calculateAverageRating($comment)
+            $avgRating = Product::where('store_id', $comment->commentable->store_id)->where('rating', '>', 0)->avg('rating');
+
+            Store::where('id', $comment->commentable->store_id)->update([
+                'rating' => $avgRating
             ]);
 
-            $comment->commentable->branches->each->update([
-                'rating' => $this->calculateAverageRating($comment)
-            ]);
+            $branches = $comment->commentable->branches()->with('products')->get();
+
+            foreach ($branches as $branch) {
+                $avgRating = $branch->products()->where('rating', '>', 0)->avg('rating');
+                $branch->update([
+                    'rating' => $avgRating
+                ]);
+            }
         }
     }
 
@@ -39,13 +48,20 @@ class CommentObserver
         ]);
 
         if ($comment->commentable_type === 'App\Models\Product') {
-            $comment->commentable->store->update([
-                'rating' => $this->calculateAverageRating($comment)
+            $avgRating = Product::where('store_id', $comment->commentable->store_id)->where('rating', '>', 0)->avg('rating');
+
+            Store::where('id', $comment->commentable->store_id)->update([
+                'rating' => $avgRating
             ]);
 
-            $comment->commentable->branches->each->update([
-                'rating' => $this->calculateAverageRating($comment)
-            ]);
+            $branches = $comment->commentable->branches()->with('products')->get();
+
+            foreach ($branches as $branch) {
+                $avgRating = $branch->products()->where('rating', '>', 0)->avg('rating');
+                $branch->update([
+                    'rating' => $avgRating
+                ]);
+            }
         }
     }
 }
