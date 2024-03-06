@@ -31,6 +31,7 @@ class StoreResource extends JsonResource
             'image' => asset(Storage::url($this->image)),
             'cover_image' => asset(Storage::url($this->cover_image)),
             'branches' => BranchResource::collection($this->whenLoaded('branches')),
+            'categories' => CategoryResource::collection($this->whenLoaded('categories')),
         ];
     }
 }

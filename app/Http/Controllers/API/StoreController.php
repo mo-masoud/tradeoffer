@@ -26,6 +26,7 @@ class StoreController extends Controller
     {
         return api_response(
             new StoreResource($store->load([
+                'categories.children',
                 'branches'
             ]))
         );

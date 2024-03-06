@@ -27,11 +27,11 @@ class StoreIndexRequest extends FormRequest
 
     public function buildQuery()
     {
-        return Store::when(
-            $this->input('category'),
-            fn($query) => $query->filterByCategory($this->input('category'))
-        )
-            ->when($this->input('featured') == 1, fn($query) => $query->featured())
+        return Store::with('categories.children')
+            ->when(
+                $this->input('category'),
+                fn($query) => $query->filterByCategory($this->input('category'))
+            )->when($this->input('featured') == 1, fn($query) => $query->featured())
             ->when($this->input('order_by_rate') == 1, fn($query) => $query->orderBy('rating', 'desc'))
             ->active()
             ->latest();
