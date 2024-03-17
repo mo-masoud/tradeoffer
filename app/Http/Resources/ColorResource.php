@@ -17,8 +17,8 @@ class ColorResource extends JsonResource
         return [
             'id' => $this->id,
             'color' => $this->color,
-            'extra_price' => (double)$this->pivot->extra_price,
-            'in_stock' => (bool)$this->pivot->in_stock,
+            'extra_price' => $this->whenPivotLoaded('color_product', fn() => (double)$this->pivot->extra_price),
+            'in_stock' => $this->whenPivotLoaded('color_product', fn() => (bool)$this->pivot->in_stock),
         ];
     }
 }

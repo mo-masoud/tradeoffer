@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BranchController;
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\OfferController;
@@ -45,6 +46,8 @@ Route::apiResource('branches', BranchController::class)->only(['index']);
 Route::apiResource('products', ProductController::class)->only(['index']);
 
 Route::get('comments', [CommentController::class, 'index']);
+
+Route::apiResource('carts', CartController::class)->except(['index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);

@@ -18,8 +18,8 @@ class ProductAttributeResource extends JsonResource
             'id' => $this->id,
             'name' => $this->attribute?->name,
             'value' => $this->value,
-            'extra_price' => $this->pivot?->extra_price,
-            'in_stock' => (boolean)$this->pivot?->in_stock,
+            'extra_price' => $this->whenPivotLoaded('attribute_value_product', fn() => (double)$this->pivot->extra_price),
+            'in_stock' => $this->whenPivotLoaded('attribute_value_product', fn() => (bool)$this->pivot->in_stock)
         ];
     }
 }
