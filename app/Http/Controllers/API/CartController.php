@@ -10,6 +10,8 @@ use App\Models\Cart;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
+use function Pest\Laravel\json;
+
 class CartController extends Controller
 {
     /**
@@ -38,7 +40,7 @@ class CartController extends Controller
 
     protected function show(Cart $cart): JsonResponse
     {
-        return api_response(new CartResource($cart));
+        return api_response(new CartResource($cart->load(Cart::$defaultRelations)));
     }
 
     protected function destroy(Cart $cart): JsonResponse
