@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Http\Resources\CartResource;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
@@ -36,6 +37,29 @@ class CartController extends Controller
         $cart = $request->save($cartItems);
 
         return api_response(new CartResource($cart));
+    }
+
+    public function changeItemQuantity(Cart $cart, Product $product): JsonResponse
+    {
+        $item = $cart->items()->where('product_id', $product->id)->firstOrFail();
+
+        $method = request('method');
+
+        if ($item->quantity === 1 && $method === 'minus') {
+            $item->delete();
+        } else {
+            $quantity = $method === 'minus' ? $item->quantity - 1 : $item->quantity + 1;
+            $item->update([
+                'quantity' => $quantity,
+                'total_price' => $item->product->price * $quantity,
+            ]);
+        }
+
+        $cart->update([
+            'total_price' => $cart->items->sum('total_price'),
+        ]);
+
+        return api_response(new CartResource($cart->load(Cart::$defaultRelations)));
     }
 
     protected function show(Cart $cart): JsonResponse

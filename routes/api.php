@@ -49,6 +49,8 @@ Route::get('comments', [CommentController::class, 'index']);
 
 Route::apiResource('carts', CartController::class)->except(['index']);
 
+Route::post('carts/{cart}/change-item-quantity/{product}', [CartController::class, 'changeItemQuantity']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
